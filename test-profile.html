@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Profile Data</title>
+</head>
+<body>
+    <script>
+        // Create test user data
+        const testUser = {
+            id: 1,
+            username: "johndoe",
+            firstName: "John",
+            lastName: "Doe",
+            email: "john.doe@example.com",
+            phone: "+1234567890",
+            workExperience: "5 years",
+            skill: "React, Node.js, JavaScript",
+            website: "https://johndoe.dev",
+            bio: "Full-stack developer with passion for modern web technologies.",
+            usesWhatsApp: true,
+            profileImageUrl: null
+        };
+
+        // Store in localStorage
+        localStorage.setItem("token", "test-token-123");
+        localStorage.setItem("user", JSON.stringify(testUser));
+        
+        alert("Test user data has been added to localStorage. You can now test the profile page.");
+    </script>
+</body>
+</html>

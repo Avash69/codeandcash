@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .output {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Access Test Page</h1>
+    <p>This page helps diagnose and fix admin access issues for Code & Cash.</p>
+
+    <div class="card">
+        <h2>1. Current User Status</h2>
+        <button onclick="checkCurrentStatus()">Check Status</button>
+        <div id="status-output" class="output"></div>
+    </div>
+
+    <div class="card">
+        <h2>2. Fix Admin Access</h2>
+        <button onclick="fixAdminAccess()">Fix Admin Access</button>
+        <div id="fix-output" class="output"></div>
+    </div>
+
+    <div class="card">
+        <h2>3. Test Admin API</h2>
+        <button onclick="testAdminAPI()">Test API</button>
+        <div id="api-output" class="output"></div>
+    </div>
+
+    <div class="card">
+        <h2>4. Emergency Access</h2>
+        <button onclick="createEmergencyAdmin()">Create Emergency Admin</button>
+        <div id="emergency-output" class="output"></div>
+    </div>
+
+    <div class="card">
+        <h2>5. Admin Dashboard</h2>
+        <button onclick="goToAdmin()">Go to Admin Dashboard</button>
+    </div>
+
+    <script>
+        function logToOutput(id, message, isError = false) {
+            const output = document.getElementById(id);
+            const el = document.createElement('div');
+            el.className = isError ? 'error' : '';
+            el.innerHTML = message;
+            output.appendChild(el);
+        }
+
+        function clearOutput(id) {
+            document.getElementById(id).innerHTML = '';
+        }
+
+        function checkCurrentStatus() {
+            clearOutput('status-output');
+            
+            const token = localStorage.getItem('token');
+            const userString = localStorage.getItem('user');
+            
+            logToOutput('status-output', `<strong>Token exists:</strong> ${!!token}`);
+            
+            try {
+                const user = userString ? JSON.parse(userString) : null;
+                logToOutput('status-output', `<strong>User found:</strong> ${!!user}`);
+                
+                if (user) {
+                    logToOutput('status-output', `<strong>Email:</strong> ${user.email || 'Not set'}`);
+                    logToOutput('status-output', `<strong>Role:</strong> ${user.role || 'Not set'}`);
+                    logToOutput('status-output', `<strong>Is admin:</strong> ${user.role === 'admin'}`);
+                    
+                    if (user.role === 'admin') {
+                        logToOutput('status-output', '✅ <strong class="success">User has admin access</strong>');
+                    } else {
+                        logToOutput('status-output', '❌ <strong class="error">User does NOT have admin access</strong>');
+                    }
+                } else {
+                    logToOutput('status-output', '❌ <strong class="error">No user found in localStorage</strong>', true);
+                }
+            } catch (e) {
+                logToOutput('status-output', `❌ <strong>Error parsing user:</strong> ${e.message}`, true);
+            }
+        }
+
+        function fixAdminAccess() {
+            clearOutput('fix-output');
+            
+            const token = localStorage.getItem('token');
+            const userString = localStorage.getItem('user');
+            
+            logToOutput('fix-output', 'Starting admin access fix...');
+            
+            try {
+                let user = userString ? JSON.parse(userString) : null;
+                
+                if (user) {
+                    const oldRole = user.role;
+                    user.role = 'admin';
+                    
+                    if (user.email === 'admin@codeandcash.com' || !user.email) {
+                        user.email = 'admin@codeandcash.com';
+                    }
+                    
+                    localStorage.setItem('user', JSON.stringify(user));
+                    logToOutput('fix-output', `✅ User role updated: ${oldRole || 'none'} → admin`);
+                } else if (token) {
+                    user = {
+                        _id: 'admin-user',
+                        name: 'Admin User',
+                        email: 'admin@codeandcash.com',
+                        role: 'admin'
+                    };
+                    localStorage.setItem('user', JSON.stringify(user));
+                    logToOutput('fix-output', '✅ Created admin user object');
+                } else {
+                    localStorage.setItem('token', 'emergency-admin-token');
+                    user = {
+                        _id: 'admin-emergency',
+                        name: 'Emergency Admin',
+                        email: 'admin@codeandcash.com',
+                        role: 'admin'
+                    };
+                    localStorage.setItem('user', JSON.stringify(user));
+                    logToOutput('fix-output', '✅ Created emergency admin token and user');
+                }
+                
+                const updatedUser = JSON.parse(localStorage.getItem('user'));
+                if (updatedUser?.role === 'admin') {
+                    logToOutput('fix-output', '✅ <strong class="success">ADMIN ACCESS FIXED SUCCESSFULLY</strong>');
+                    logToOutput('fix-output', 'Please refresh your app or navigate to /admin');
+                } else {
+                    logToOutput('fix-output', '❌ Fix failed', true);
+                }
+            } catch (e) {
+                logToOutput('fix-output', `❌ Error: ${e.message}`, true);
+            }
+        }
+
+        function testAdminAPI() {
+            clearOutput('api-output');
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                logToOutput('api-output', '❌ No token found. Please fix admin access first.', true);
+                return;
+            }
+            
+            logToOutput('api-output', 'Testing admin API endpoints...');
+            
+            // Test admin access endpoint
+            fetch('http://localhost:5002/api/admin/check-access', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                logToOutput('api-output', `Admin Access Check: ${response.status} ${response.statusText}`);
+                if (response.status === 200) {
+                    return response.json().then(data => {
+                        logToOutput('api-output', `✅ <strong class="success">Admin access confirmed</strong>`);
+                    });
+                } else if (response.status === 404) {
+                    logToOutput('api-output', '⚠️ Admin check endpoint not found (this is OK if your backend doesn\'t have this endpoint)');
+                } else {
+                    logToOutput('api-output', '❌ Admin access denied by API', true);
+                }
+            })
+            .catch(error => {
+                logToOutput('api-output', `❌ Error: ${error.message}`, true);
+            });
+            
+            // Test stats endpoint
+            fetch('http://localhost:5002/api/admin/stats', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                logToOutput('api-output', `Admin Stats API: ${response.status} ${response.statusText}`);
+            })
+            .catch(error => {
+                logToOutput('api-output', `❌ Error with stats API: ${error.message}`, true);
+            });
+        }
+
+        function createEmergencyAdmin() {
+            clearOutput('emergency-output');
+            
+            logToOutput('emergency-output', 'Creating emergency admin access...');
+            
+            localStorage.setItem('token', 'emergency-admin-token');
+            const emergencyUser = {
+                _id: 'admin-emergency',
+                name: 'Emergency Admin',
+                email: 'admin@codeandcash.com',
+                role: 'admin'
+            };
+            localStorage.setItem('user', JSON.stringify(emergencyUser));
+            
+            logToOutput('emergency-output', '✅ <strong class="success">Emergency admin access created</strong>');
+            logToOutput('emergency-output', 'Note: This is a temporary solution. Your backend may still reject API calls.');
+        }
+
+        function goToAdmin() {
+            window.location.href = '/admin';
+        }
+    </script>
+</body>
+</html>
