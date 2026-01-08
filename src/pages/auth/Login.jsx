@@ -320,7 +320,7 @@ const Login = () => {
           className="relative w-1/2 overflow-hidden"
         >
           <img
-            src="/login.png"
+            src="https://e7.pngegg.com/pngimages/227/811/png-clipart-freelancer-sole-proprietorship-workplace-employment-tax-copywriter-purple-violet.png"
             alt="Login illustration"
             className="object-cover w-full h-full"
           />
