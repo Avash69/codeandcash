@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive information about the backend API endpoints, data fetching methods, and integration details for the Code & Cash frontend application.
+This document provides comprehensive information about the backend API endpoints, data fetching methods, and integration details for the Codexa frontend application.
 
 ## Backend Configuration
 
@@ -693,4 +693,4 @@ VITE_DEBUG=true
 
 ---
 
-This documentation provides a comprehensive overview of the backend integration for the Code & Cash frontend application. It covers all aspects of API communication, data fetching, error handling, and security considerations.
+This documentation provides a comprehensive overview of the backend integration for the Codexa frontend application. It covers all aspects of API communication, data fetching, error handling, and security considerations.

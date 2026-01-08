@@ -431,7 +431,7 @@
 //         <footer className="px-6 py-4 border-t bg-white/5 backdrop-blur-xl border-white/10">
 //           <div className="flex items-center justify-between text-sm text-gray-400">
 //             <div className="flex items-center space-x-4">
-//               <span>© 2024 Code & Cash Admin</span>
+//               <span>© 2024 Codexa Admin</span>
 //               <span className="hidden sm:inline">•</span>
 //               <span className="hidden sm:inline">v2.1.0</span>
 //             </div>
@@ -852,7 +852,7 @@ export const AdminLayout = () => {
         <footer className="px-6 py-4 border-t bg-white/5 backdrop-blur-xl border-white/10">
           <div className="flex items-center justify-between text-sm text-gray-400">
             <div className="flex items-center space-x-4">
-              <span>© 2025 Code & Cash Admin</span>
+              <span>© 2025 Codexa Admin</span>
               <span className="hidden sm:inline">•</span>
               <span className="hidden sm:inline">v2.1.0</span>
             </div>

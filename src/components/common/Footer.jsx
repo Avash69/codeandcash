@@ -99,7 +99,7 @@ const Footer = () => {
             <div className="flex flex-col items-center justify-between md:flex-row">
               <div className="flex items-center space-x-4">
                 <Link to="/" className="text-lg font-semibold text-indigo">
-                  code & cash
+                  codexa
                 </Link>
                 <span className="text-border">|</span>
                 <span className="text-text-secondary">

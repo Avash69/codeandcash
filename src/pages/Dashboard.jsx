@@ -388,7 +388,7 @@ const Dashboard = () => {
                   transition={{ delay: 0.2, duration: 0.8 }}
                   className="mb-4 text-4xl font-bold text-slate-50"
                 >
-                  Welcome Back to Code & Cash!
+                  Welcome Back to Codexa!
                 </motion.h1>
                 <motion.p
                   initial={{ y: 20, opacity: 0 }}
@@ -396,8 +396,8 @@ const Dashboard = () => {
                   transition={{ delay: 0.4, duration: 0.8 }}
                   className="mb-8 text-xl text-slate-300"
                 >
-                  We've found new tasks that match your profile. Ready to start
-                  earning?
+                  CodeXa connects talented developers with businesses needing coding help .
+                  Solve tasks , get paid , build your portfolio .
                 </motion.p>
                 <motion.div
                   className="flex flex-col items-center justify-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4"
@@ -435,8 +435,8 @@ const Dashboard = () => {
                   transition={{ delay: 0.4, duration: 0.8 }}
                   className="mb-8 text-xl text-slate-300"
                 >
-                  code & cash connects talented developers with companies
-                  needing coding help. Save time, get paid, build your
+                  CodeXa connects talented developers with businesses needing coding help .
+                  Save time, get paid, build your
                   portfolio.
                 </motion.p>
                 <motion.div
@@ -590,7 +590,7 @@ const Dashboard = () => {
               animate={howItWorksInView ? "animate" : "initial"}
               className="mb-12 text-3xl font-bold text-center text-slate-50"
             >
-              How code & cash Works
+              How codexa Works
             </motion.h2>
             <motion.div
               variants={staggerContainer}
@@ -869,7 +869,7 @@ const Dashboard = () => {
             >
               <p className="mb-4 text-slate-300">
                 "As a tech startup, finding reliable developers was a challenge.
-                code & cash made it simple and efficient."
+                codexa made it simple and efficient."
               </p>
               <div className="flex items-center">
                 <div>
@@ -906,7 +906,7 @@ const Dashboard = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-8 text-slate-300"
           >
-            Join thousands of developers earning income on code & cash
+            Join thousands of developers earning income on codexa
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

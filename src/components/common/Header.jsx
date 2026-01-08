@@ -148,7 +148,7 @@ const Header = () => {
                 whileHover={{ scale: 1.05 }}
                 className="text-xl font-semibold text-indigo-400"
               >
-                code & cash
+                codexa
               </motion.span>
             </Link>
           </div>
