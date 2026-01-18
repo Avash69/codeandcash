@@ -3,13 +3,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCurrentUser } from "../api/authService";
 import enhancedTaskAPI from "../api/enhancedTaskAPI";
-import AnimatedCubes from "../components/AnimatedCubes";
 import { STORAGE_KEYS } from "../constants/appConstants";
 
 // Profile Completion Reminder Component
 const ProfileCompletionReminder = ({ onClose }) => {
-  // Mock profile completion percentage - in a real implementation, you would
-  // calculate this based on user data from an API or local storage
+  // Mock profile completion percentage
   const completionPercentage = 30;
 
   return (
@@ -17,84 +15,69 @@ const ProfileCompletionReminder = ({ onClose }) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -100, opacity: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+      className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 pointer-events-none"
     >
-      <div className="w-full max-w-4xl p-4 mx-4 mt-4 overflow-hidden rounded-lg shadow-xl bg-gradient-to-r from-indigo-600 to-purple-600">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center mb-4 space-x-4 sm:mb-0">
-            <div className="relative p-2 bg-white rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-indigo-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              <div className="absolute w-4 h-4 bg-yellow-400 border-2 border-indigo-600 rounded-full -top-1 -right-1 animate-pulse"></div>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-white">
-                Complete Your Profile
-              </h3>
-              <div className="space-y-1">
-                <p className="text-indigo-100">
-                  Add your details to get personalized tasks and increase your
-                  chances of being selected!
-                </p>
-                <div className="w-full bg-indigo-800/50 rounded-full h-2.5">
-                  <div
-                    className="bg-yellow-400 h-2.5 rounded-full"
-                    style={{ width: `${completionPercentage}%` }}
-                  ></div>
+      <div className="w-full max-w-4xl p-1 pointer-events-auto overflow-hidden rounded-2xl shadow-xl shadow-indigo-500/10 bg-surface border border-border">
+        <div className="p-4 bg-gradient-to-r from-indigo-50/50 to-purple-50/50 rounded-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center mb-4 space-x-4 sm:mb-0">
+              <div className="relative p-2.5 bg-white rounded-xl shadow-sm border border-indigo-100">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6 text-primary"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                <div className="absolute w-3 h-3 bg-amber-400 border-2 border-white rounded-full -top-1 -right-1 animate-pulse"></div>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-text-primary">
+                  Complete Your Profile
+                </h3>
+                <div className="space-y-1">
+                  <p className="text-sm text-text-secondary">
+                    Add your details to get personalized tasks.
+                  </p>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-32 bg-slate-100 rounded-full h-2">
+                      <div
+                        className="bg-primary h-2 rounded-full"
+                        style={{ width: `${completionPercentage}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-xs font-medium text-primary">
+                      {completionPercentage}%
+                    </span>
+                  </div>
                 </div>
-                <p className="text-xs text-indigo-200">
-                  {completionPercentage}% Complete
-                </p>
               </div>
             </div>
-          </div>
-          <div className="flex items-center ml-10 space-x-3 sm:ml-0">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 font-medium text-white rounded-md bg-white/20 hover:bg-white/30"
-              onClick={onClose}
-            >
-              Later
-            </motion.button>
-            <Link to="/profile">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 font-medium text-indigo-700 bg-white rounded-md hover:bg-indigo-50"
+            <div className="flex items-center ml-12 space-x-3 sm:ml-0">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-slate-100 rounded-lg transition-colors"
+
               >
-                Complete Now
-              </motion.button>
-            </Link>
-            <button
-              onClick={onClose}
-              className="p-1 text-white rounded-full hover:bg-white/10"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+                Later
+              </button>
+              <Link to="/profile">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg shadow-lg shadow-primary/25 hover:bg-primary-hover"
+                >
+                  Complete Now
+                </motion.button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -162,8 +145,6 @@ const Dashboard = () => {
       setIsLoadingFeaturedTasks(true);
       setFeaturedTasksError(null);
 
-      console.log("🔄 Fetching featured tasks from API...");
-
       // Set auth token if available
       const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
       if (token) {
@@ -177,25 +158,16 @@ const Dashboard = () => {
         page: 1,
       });
 
-      console.log("✅ Featured tasks response:", response);
-
       // Backend contract: tasks are always in response.data.tasks
       let tasks = [];
       if (response?.data?.tasks && Array.isArray(response.data.tasks)) {
         tasks = response.data.tasks;
-        console.log("✅ Tasks loaded from response.data.tasks:", tasks.length);
-      } else {
-        console.warn(
-          "⚠️ Backend response does not contain data.tasks array:",
-          response
-        );
       }
 
       // Take only first 3 tasks for featured section
       const limitedTasks = tasks.slice(0, 3);
       setFeaturedTasks(limitedTasks);
 
-      console.log("✅ Featured tasks loaded:", limitedTasks.length);
     } catch (error) {
       console.error("❌ Error fetching featured tasks:", error);
       setFeaturedTasksError(error.message || "Failed to load featured tasks");
@@ -245,9 +217,6 @@ const Dashboard = () => {
   // Debug function to test featured tasks API directly
   const handleDebugFeaturedTasksAPI = useCallback(async () => {
     console.log("🐛 DEBUG FEATURED TASKS API CALL");
-    console.log("User:", user);
-    console.log("Token:", localStorage.getItem(STORAGE_KEYS.TOKEN));
-
     try {
       const response = await enhancedTaskAPI.getTasks({
         limit: 3,
@@ -360,10 +329,7 @@ const Dashboard = () => {
   const ctaInView = useInView(ctaRef, { once: true, amount: 0.3 });
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-indigo-950">
-      {/* Animated Cubes Background with optimized performance */}
-      <AnimatedCubes count={25} performance="low" />
-
+    <div className="relative min-h-screen overflow-hidden bg-background">
       {/* Profile Completion Reminder */}
       <AnimatePresence>
         {showProfileReminder && isLoggedIn && (
@@ -372,11 +338,11 @@ const Dashboard = () => {
       </AnimatePresence>
 
       {/* Advanced Hero Section */}
-      <div className="relative z-10 overflow-hidden pt-20 pb-24 bg-gradient-to-b from-indigo-950 via-indigo-900 to-indigo-850">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute w-96 h-96 bg-indigo-500/10 rounded-full -top-40 -left-40 blur-3xl"></div>
-          <div className="absolute w-96 h-96 bg-purple-500/10 rounded-full -bottom-40 -right-40 blur-3xl"></div>
+      <div className="relative z-10 overflow-hidden pt-24 pb-24 bg-gradient-to-b from-white via-indigo-50/30 to-background">
+        {/* Decorative elements - Softer & Cleaner */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute w-[800px] h-[800px] bg-indigo-200/20 rounded-full -top-96 -left-40 blur-3xl opacity-50"></div>
+          <div className="absolute w-[600px] h-[600px] bg-purple-200/20 rounded-full -bottom-40 -right-40 blur-3xl opacity-50"></div>
         </div>
 
         <div className="relative z-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -394,7 +360,7 @@ const Dashboard = () => {
                   transition={{ delay: 0.1 }}
                   className="inline-block mb-4"
                 >
-                  <span className="px-4 py-2 text-sm font-semibold text-indigo-300 rounded-full bg-indigo-900/50 border border-indigo-700">
+                  <span className="px-4 py-2 text-sm font-semibold text-primary rounded-full bg-indigo-50 border border-indigo-100">
                     ✨ Welcome Back!
                   </span>
                 </motion.div>
@@ -403,16 +369,16 @@ const Dashboard = () => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="mb-6 text-5xl md:text-6xl font-bold leading-tight text-slate-50"
+                  className="mb-6 text-5xl md:text-6xl font-bold leading-tight text-text-primary"
                 >
-                  Your Next <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">Opportunity</span> Awaits
+                  Your Next <span className="text-primary">Opportunity</span> Awaits
                 </motion.h1>
 
                 <motion.p
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
-                  className="mb-8 text-xl text-slate-300 leading-relaxed"
+                  className="mb-8 text-xl text-text-secondary leading-relaxed"
                 >
                   Discover curated coding tasks from leading companies, showcase your skills, and earn competitive rates. Level up your career today.
                 </motion.p>
@@ -424,17 +390,17 @@ const Dashboard = () => {
                   transition={{ delay: 0.4 }}
                   className="grid grid-cols-3 gap-6 mb-8"
                 >
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400">1,250+</div>
-                    <div className="text-sm text-slate-400">Active Tasks</div>
+                  <div className="text-center p-4 bg-white rounded-xl shadow-sm border border-slate-100">
+                    <div className="text-3xl font-bold text-primary">1,250+</div>
+                    <div className="text-sm text-text-muted">Active Tasks</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400">$850K+</div>
-                    <div className="text-sm text-slate-400">Paid Out</div>
+                  <div className="text-center p-4 bg-white rounded-xl shadow-sm border border-slate-100">
+                    <div className="text-3xl font-bold text-primary">$850K+</div>
+                    <div className="text-sm text-text-muted">Paid Out</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400">2,500+</div>
-                    <div className="text-sm text-slate-400">Developers</div>
+                  <div className="text-center p-4 bg-white rounded-xl shadow-sm border border-slate-100">
+                    <div className="text-3xl font-bold text-primary">2,500+</div>
+                    <div className="text-sm text-text-muted">Developers</div>
                   </div>
                 </motion.div>
 
@@ -446,9 +412,9 @@ const Dashboard = () => {
                 >
                   <Link to="/exploretask">
                     <motion.button
-                      whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.3)" }}
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.25)" }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-8 py-3 text-lg font-semibold bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-lg shadow-lg text-white hover:from-indigo-600 hover:to-indigo-700 transition-all"
+                      className="px-8 py-3 text-lg font-semibold bg-primary text-white rounded-xl shadow-lg shadow-primary/30 hover:bg-primary-hover transition-all"
                     >
                       Explore Tasks →
                     </motion.button>
@@ -457,7 +423,7 @@ const Dashboard = () => {
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-8 py-3 text-lg font-semibold text-indigo-300 border-2 border-indigo-500 rounded-lg hover:bg-indigo-900/30 transition-all"
+                      className="px-8 py-3 text-lg font-semibold text-text-primary bg-white border border-border rounded-xl shadow-sm hover:bg-slate-50 transition-all"
                     >
                       Update Profile
                     </motion.button>
@@ -477,19 +443,19 @@ const Dashboard = () => {
                   <motion.div
                     animate={{ y: [0, -20, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
-                    className="absolute top-0 -left-12 w-64 p-6 bg-gradient-to-br from-indigo-800 to-indigo-900 rounded-xl border border-indigo-700 shadow-2xl"
+                    className="absolute top-0 -left-12 w-64 p-6 bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 z-20"
                   >
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
-                        💻
+                      <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
+                        <span className="text-2xl">💻</span>
                       </div>
-                      <span className="px-3 py-1 text-xs font-bold text-green-400 bg-green-900/30 rounded-full">In Progress</span>
+                      <span className="px-3 py-1 text-xs font-bold text-green-600 bg-green-50 rounded-full border border-green-100">In Progress</span>
                     </div>
-                    <h4 className="font-semibold text-white mb-2">React Dashboard UI</h4>
-                    <p className="text-sm text-slate-400 mb-3">Build a responsive dashboard component library with Tailwind CSS.</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-cyan-400 font-bold">$150</span>
-                      <span className="text-xs text-slate-400">Est. 5 hrs</span>
+                    <h4 className="font-semibold text-text-primary mb-2">React Dashboard UI</h4>
+                    <p className="text-sm text-text-secondary mb-3">Build a responsive dashboard component library with Tailwind CSS.</p>
+                    <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                      <span className="text-primary font-bold">$150</span>
+                      <span className="text-xs text-text-muted">Est. 5 hrs</span>
                     </div>
                   </motion.div>
 
@@ -497,47 +463,37 @@ const Dashboard = () => {
                   <motion.div
                     animate={{ y: [0, 20, 0] }}
                     transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-                    className="absolute bottom-0 -right-12 w-64 p-6 bg-gradient-to-br from-purple-800 to-indigo-900 rounded-xl border border-purple-700 shadow-2xl"
+                    className="absolute bottom-0 -right-12 w-64 p-6 bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 z-20"
                   >
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                        ⚡
+                      <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center">
+                        <span className="text-2xl">⚡</span>
                       </div>
-                      <span className="px-3 py-1 text-xs font-bold text-yellow-400 bg-yellow-900/30 rounded-full">Available</span>
+                      <span className="px-3 py-1 text-xs font-bold text-amber-600 bg-amber-50 rounded-full border border-amber-100">Available</span>
                     </div>
-                    <h4 className="font-semibold text-white mb-2">API Integration</h4>
-                    <p className="text-sm text-slate-400 mb-3">Integrate Stripe payment gateway with Node.js backend.</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-cyan-400 font-bold">$200</span>
-                      <span className="text-xs text-slate-400">Est. 8 hrs</span>
+                    <h4 className="font-semibold text-text-primary mb-2">API Integration</h4>
+                    <p className="text-sm text-text-secondary mb-3">Integrate Stripe payment gateway with Node.js backend.</p>
+                    <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+                      <span className="text-primary font-bold">$200</span>
+                      <span className="text-xs text-text-muted">Est. 8 hrs</span>
                     </div>
                   </motion.div>
 
                   {/* Center visual element */}
-                  <div className="w-80 h-80 mx-auto">
-                    <div className="relative w-full h-full">
+                  <div className="w-80 h-80 mx-auto bg-gradient-to-br from-indigo-50 to-white rounded-full flex items-center justify-center shadow-inner relative z-10">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0 rounded-full border border-dashed border-indigo-200"
+                    ></motion.div>
+                    <div className="text-center p-8 bg-white rounded-full shadow-lg shadow-indigo-100">
                       <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-0 rounded-full border-2 border-transparent border-t-indigo-400 border-r-purple-400"
-                      ></motion.div>
-                      <motion.div
-                        animate={{ rotate: -360 }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-4 rounded-full border-2 border-transparent border-t-cyan-400 border-l-indigo-400"
-                      ></motion.div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center">
-                          <motion.div
-                            animate={{ scale: [1, 1.1, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                            className="text-6xl mb-2"
-                          >
-                            🚀
-                          </motion.div>
-                          <p className="text-slate-300 font-semibold">Start Earning Now</p>
-                        </div>
-                      </div>
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="text-6xl mb-2"
+                      >
+                        🚀
+                      </motion.div>
                     </div>
                   </div>
                 </div>
@@ -557,7 +513,7 @@ const Dashboard = () => {
                   transition={{ delay: 0.1 }}
                   className="inline-block mb-4"
                 >
-                  <span className="px-4 py-2 text-sm font-semibold text-indigo-300 rounded-full bg-indigo-900/50 border border-indigo-700">
+                  <span className="px-4 py-2 text-sm font-semibold text-primary rounded-full bg-indigo-50 border border-indigo-100">
                     🎯 For Developers & Teams
                   </span>
                 </motion.div>
@@ -566,16 +522,16 @@ const Dashboard = () => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="mb-6 text-5xl md:text-6xl font-bold leading-tight text-slate-50"
+                  className="mb-6 text-5xl md:text-6xl font-bold leading-tight text-text-primary"
                 >
-                  Build Together, <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">Earn Smarter</span>
+                  Build Together, <span className="text-primary">Earn Smarter</span>
                 </motion.h1>
 
                 <motion.p
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
-                  className="mb-8 text-xl text-slate-300 leading-relaxed"
+                  className="mb-8 text-xl text-text-secondary leading-relaxed"
                 >
                   Connect with talented developers and businesses. Solve real-world coding tasks, build your portfolio, and earn competitive income all in one platform.
                 </motion.p>
@@ -599,8 +555,12 @@ const Dashboard = () => {
                       transition={{ delay: 0.5 + i * 0.1 }}
                       className="flex items-center gap-3"
                     >
-                      <span className="text-2xl text-cyan-400">{feature.icon}</span>
-                      <span className="text-slate-300">{feature.text}</span>
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xs font-bold">
+                        {feature.icon === "✓" ? "✓" : ""}
+                        {feature.icon !== "✓" && feature.icon}
+                      </div>
+
+                      <span className="text-text-secondary">{feature.text}</span>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -612,9 +572,9 @@ const Dashboard = () => {
                 >
                   <Link to="/signup">
                     <motion.button
-                      whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.3)" }}
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.25)" }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-full sm:w-auto px-8 py-4 text-lg font-semibold bg-gradient-to-r from-cyan-500 to-indigo-600 rounded-lg shadow-xl text-white hover:from-cyan-600 hover:to-indigo-700 transition-all"
+                      className="w-full sm:w-auto px-8 py-4 text-lg font-semibold bg-primary text-white rounded-xl shadow-lg shadow-primary/30 hover:bg-primary-hover transition-all"
                     >
                       Join Now - It's Free →
                     </motion.button>
@@ -630,20 +590,23 @@ const Dashboard = () => {
                 className="relative"
               >
                 <div className="relative h-96">
+                  {/* Abstract Tech Visual */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-50 to-white rounded-[2rem] border border-slate-100 transform rotate-3 shadow-2xl"></div>
+
                   {/* Code snippet cards */}
                   <motion.div
                     animate={{ y: [0, -15, 0] }}
                     transition={{ duration: 5, repeat: Infinity }}
-                    className="absolute top-0 left-0 w-72 p-5 bg-slate-900/80 rounded-xl border border-slate-700 shadow-2xl backdrop-blur-sm"
+                    className="absolute top-10 left-0 w-72 p-6 bg-white rounded-xl border border-slate-100 shadow-xl z-20"
                   >
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-amber-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-400"></div>
                     </div>
-                    <code className="text-sm text-cyan-400">
-                      <div>const task = await solve()</div>
-                      <div className="text-yellow-400">return <span className="text-green-400">"$$$"</span></div>
+                    <code className="text-sm font-mono block p-3 bg-slate-50 rounded-lg text-slate-700">
+                      <div><span className="text-purple-600">const</span> task = <span className="text-purple-600">await</span> solve()</div>
+                      <div className="mt-1"><span className="text-purple-600">return</span> <span className="text-green-600">"$$$"</span></div>
                     </code>
                   </motion.div>
 
@@ -651,31 +614,20 @@ const Dashboard = () => {
                   <motion.div
                     animate={{ y: [0, 15, 0] }}
                     transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
-                    className="absolute bottom-0 right-0 w-72 p-5 bg-gradient-to-br from-indigo-800/80 to-purple-800/80 rounded-xl border border-indigo-600 shadow-2xl backdrop-blur-sm"
+                    className="absolute bottom-10 right-0 w-64 p-5 bg-white rounded-xl border border-slate-100 shadow-xl z-20"
                   >
-                    <div className="text-sm font-semibold text-slate-300 mb-3">Platform Stats</div>
+                    <div className="text-sm font-semibold text-text-secondary mb-3">Platform Stats</div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="text-2xl font-bold text-cyan-400">5K+</div>
-                        <div className="text-xs text-slate-400">Tasks Completed</div>
+                        <div className="text-2xl font-bold text-primary">5K+</div>
+                        <div className="text-xs text-text-muted">Tasks</div>
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-cyan-400">4.8★</div>
-                        <div className="text-xs text-slate-400">Avg Rating</div>
+                        <div className="text-2xl font-bold text-primary">4.8★</div>
+                        <div className="text-xs text-text-muted">Rating</div>
                       </div>
                     </div>
                   </motion.div>
-
-                  {/* Center hero graphic */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      animate={{ rotate: [0, 360] }}
-                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                      className="w-48 h-48"
-                    >
-                      <div className="w-full h-full rounded-full border-2 border-transparent border-t-indigo-400 border-r-purple-400 border-b-cyan-400 shadow-2xl shadow-indigo-500/50"></div>
-                    </motion.div>
-                  </div>
                 </div>
               </motion.div>
             </div>
@@ -685,44 +637,44 @@ const Dashboard = () => {
 
       {/* Personalized Tasks Section - Only shown to logged in users */}
       {isLoggedIn && (
-        <div className="relative z-20 py-8 bg-gradient-to-b from-indigo-950 to-indigo-900">
+        <div className="relative z-20 py-16 bg-white">
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="p-6 border border-indigo-700 rounded-lg shadow-lg bg-indigo-900/60 backdrop-blur-sm"
+              className="p-8 border border-border rounded-2xl shadow-sm bg-background"
             >
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className="text-2xl font-bold text-text-primary">
                     Recommended For You
                   </h2>
-                  <p className="text-indigo-300">
+                  <p className="text-text-secondary mt-1">
                     Tasks matching your skills and preferences
                   </p>
                 </div>
                 <div className="flex gap-3">
                   <Link to="/my-tasks">
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="px-4 py-2 text-sm font-medium text-white transition-colors rounded-md bg-purple-600/60 hover:bg-purple-600"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="px-4 py-2 text-sm font-medium text-text-primary bg-white border border-border rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
                     >
                       My Applied Tasks
                     </motion.button>
                   </Link>
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-4 py-2 text-sm font-medium text-white transition-colors rounded-md bg-indigo-600/60 hover:bg-indigo-600"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg shadow-md hover:bg-primary-hover transition-colors"
                   >
                     View All Matches
                   </motion.button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {personalizedTasks.map((task, index) => (
                   <motion.div
                     key={index}
@@ -730,52 +682,52 @@ const Dashboard = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                    className="overflow-hidden transition-all duration-300 border border-indigo-600 rounded-lg shadow-lg bg-gradient-to-br from-indigo-800 to-indigo-900 hover:shadow-xl hover:shadow-indigo-900/40"
+                    className="overflow-hidden bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
                   >
-                    <div className="p-5">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="px-3 py-1 text-xs font-medium text-indigo-200 rounded-full bg-indigo-700/60">
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="px-3 py-1 text-xs font-medium text-primary rounded-full bg-indigo-50 border border-indigo-100">
                           {task.tag}
                         </span>
-                        <span className="text-lg font-bold text-yellow-400">
+                        <span className="text-lg font-bold text-slate-900">
                           {task.rate}
                         </span>
                       </div>
 
                       <div className="mb-4">
-                        <h3 className="mb-1 text-lg font-semibold text-white">
+                        <h3 className="mb-2 text-lg font-semibold text-text-primary">
                           {task.title}
                         </h3>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs text-indigo-300">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-text-secondary">
                             {task.difficulty}
                           </span>
                           <div className="flex items-center">
-                            <span className="mr-1 text-xs font-medium text-indigo-300">
+                            <span className="mr-1 text-xs font-medium text-text-muted">
                               Match:
                             </span>
-                            <span className="text-sm font-bold text-green-400">
+                            <span className="text-sm font-bold text-green-600">
                               {task.matchPercentage}%
                             </span>
                           </div>
                         </div>
-                        <div className="w-full h-1.5 bg-indigo-800 rounded-full">
+                        <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                           <div
-                            className="h-1.5 rounded-full bg-gradient-to-r from-green-400 to-green-500"
+                            className="h-1.5 rounded-full bg-green-500"
                             style={{ width: `${task.matchPercentage}%` }}
                           ></div>
                         </div>
                       </div>
 
-                      <p className="mb-4 text-sm text-indigo-200">
+                      <p className="mb-6 text-sm text-text-secondary line-clamp-2">
                         {task.description}
                       </p>
 
-                      <div className="flex justify-end mt-2">
+                      <div className="flex justify-end mt-auto">
                         <motion.button
                           whileHover={{ scale: 1.05, x: 3 }}
                           whileTap={{ scale: 0.95 }}
-                          className="flex items-center text-sm font-medium text-cyan-400 hover:text-cyan-300"
+                          className="flex items-center text-sm font-medium text-primary hover:text-primary-hover"
                         >
                           View Details
                           <svg
@@ -805,14 +757,14 @@ const Dashboard = () => {
       {!isLoggedIn && (
         <div
           ref={howItWorksRef}
-          className="relative z-10 py-16 bg-indigo-900"
+          className="relative z-10 py-20 bg-background"
           id="how-it-works"
         >
           <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <motion.h2
               {...fadeInUp}
               animate={howItWorksInView ? "animate" : "initial"}
-              className="mb-12 text-3xl font-bold text-center text-slate-50"
+              className="mb-12 text-3xl font-bold text-center text-text-primary"
             >
               How Codexa Works
             </motion.h2>
@@ -827,27 +779,33 @@ const Dashboard = () => {
                   title: "Create an Account",
                   description:
                     "Sign up as a developer or business user to get started using coding journey",
+                  icon: "✨"
                 },
                 {
                   title: "Find or Post Tasks",
                   description:
                     "Browse or create coding tasks with clear requirements",
+                  icon: "🔍"
                 },
                 {
                   title: "Complete & Get Paid",
                   description:
                     "Submit your solution, get approved and receive payment directly to your account",
+                  icon: "💸"
                 },
               ].map((step, index) => (
                 <motion.div
                   key={index}
                   variants={fadeInUp}
-                  className="p-6 transition-shadow duration-300 border rounded-lg shadow-md bg-indigo-800/70 backdrop-blur-sm border-slate-600 hover:shadow-xl hover:shadow-indigo-900/20"
+                  className="p-8 transition-shadow duration-300 border rounded-2xl shadow-sm bg-white border-slate-100 hover:shadow-lg"
                 >
-                  <div className="mb-4 text-xl font-semibold text-indigo-400">
+                  <div className="w-12 h-12 mb-6 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl">
+                    {step.icon}
+                  </div>
+                  <div className="mb-4 text-xl font-semibold text-text-primary">
                     {step.title}
                   </div>
-                  <p className="text-slate-300">{step.description}</p>
+                  <p className="text-text-secondary leading-relaxed">{step.description}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -858,20 +816,20 @@ const Dashboard = () => {
       {/* Featured Tasks Section */}
       <div
         ref={featuredTasksRef}
-        className="relative z-10 py-16 bg-gradient-to-b from-indigo-900 to-indigo-800"
+        className="relative z-10 py-20 bg-white"
       >
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0 }}
             animate={featuredTasksInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex items-center justify-between mb-8"
+            className="flex items-center justify-between mb-12"
           >
             <div>
-              <h2 className="text-3xl font-bold text-slate-50">
+              <h2 className="text-3xl font-bold text-text-primary">
                 Featured Tasks
               </h2>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-2 text-text-secondary">
                 Discover the latest opportunities from top companies
               </p>
             </div>
@@ -879,12 +837,11 @@ const Dashboard = () => {
               <button
                 onClick={fetchFeaturedTasks}
                 disabled={isLoadingFeaturedTasks}
-                className="items-center hidden px-3 py-2 font-medium text-white transition-all duration-200 rounded-lg shadow-lg sm:inline-flex bg-slate-600 hover:bg-slate-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="items-center hidden px-4 py-2 font-medium text-text-primary transition-all duration-200 rounded-lg bg-slate-100 hover:bg-slate-200 sm:inline-flex disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
-                  className={`w-4 h-4 mr-2 ${
-                    isLoadingFeaturedTasks ? "animate-spin" : ""
-                  }`}
+                  className={`w-4 h-4 mr-2 ${isLoadingFeaturedTasks ? "animate-spin" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -898,49 +855,37 @@ const Dashboard = () => {
                 </svg>
                 Refresh
               </button>
-              <button
-                onClick={handleDebugFeaturedTasksAPI}
-                className="items-center hidden px-3 py-2 font-medium text-white transition-all duration-200 bg-yellow-600 rounded-lg shadow-lg sm:inline-flex hover:bg-yellow-500"
-              >
-                🐛 Debug API
-              </button>
+
               <Link
                 to="/exploretask"
-                className="text-indigo-400 hover:text-indigo-300"
+                className="text-primary hover:text-primary-hover font-medium"
               >
-                View All Tasks
+                View All Tasks →
               </Link>
             </div>
           </motion.div>
 
           {/* Loading State */}
           {isLoadingFeaturedTasks && (
-            <div className="flex items-center justify-center py-12">
+            <div className="flex items-center justify-center py-20">
               <div className="relative">
-                <div className="w-12 h-12 mx-auto border-4 rounded-full border-indigo-500/30 animate-spin border-t-indigo-500"></div>
-                <div
-                  className="absolute w-8 h-8 mx-auto transform -translate-x-1/2 border-4 rounded-full top-2 left-1/2 border-purple-500/30 animate-spin border-t-purple-500"
-                  style={{
-                    animationDirection: "reverse",
-                    animationDuration: "1.5s",
-                  }}
-                ></div>
+                <div className="w-12 h-12 mx-auto border-4 rounded-full border-indigo-100 animate-spin border-t-primary"></div>
               </div>
             </div>
           )}
 
           {/* Error State */}
           {featuredTasksError && !isLoadingFeaturedTasks && (
-            <div className="py-12 text-center">
-              <div className="mb-4 text-red-400">
+            <div className="py-20 text-center bg-red-50 rounded-2xl">
+              <div className="mb-4 text-red-500 font-medium">
                 ⚠️ Failed to load featured tasks
               </div>
-              <p className="mb-4 text-sm text-slate-400">
+              <p className="mb-6 text-sm text-red-400">
                 {featuredTasksError}
               </p>
               <button
                 onClick={fetchFeaturedTasks}
-                className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-500"
+                className="px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover transition-colors"
               >
                 Retry
               </button>
@@ -961,83 +906,73 @@ const Dashboard = () => {
                     <motion.div
                       key={task._id || task.id || index}
                       variants={fadeInUp}
-                      className="overflow-hidden transition-shadow duration-300 border rounded-lg shadow-md bg-indigo-900/70 backdrop-blur-sm border-slate-600 hover:shadow-xl hover:shadow-indigo-900/30"
-                      whileHover={{ y: -5 }}
+                      className="group overflow-hidden transition-all duration-300 border rounded-2xl shadow-sm bg-white border-slate-100 hover:shadow-lg hover:border-indigo-100 hover:-translate-y-1"
                     >
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-4">
-                          <span className="px-3 py-1 text-sm text-indigo-400 rounded-full bg-indigo-600/30">
+                          <span className="px-3 py-1 text-sm font-medium text-primary rounded-full bg-indigo-50">
                             {task.category || "General"}
                           </span>
-                          <span className="text-yellow-500">
+                          <span className="text-lg font-bold text-slate-900">
                             ${task.payout || task.budget || 0}
                           </span>
                         </div>
-                        <h3 className="mb-2 text-xl font-semibold text-slate-50">
+                        <h3 className="mb-3 text-xl font-bold text-text-primary group-hover:text-primary transition-colors">
                           {task.title}
                         </h3>
-                        <p className="mb-4 text-slate-300 line-clamp-3">
+                        <p className="mb-6 text-text-secondary line-clamp-3 leading-relaxed">
                           {task.description}
                         </p>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-sm text-slate-400">
-                            {task.company ||
-                              task.clientId?.name ||
-                              "Unknown Company"}
-                          </span>
-                          <span className="text-sm text-slate-400 capitalize">
-                            {task.difficulty || "Medium"}
-                          </span>
+
+                        <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                          <div className="flex flex-col">
+                            <span className="text-xs text-text-muted mb-1">Company</span>
+                            <span className="text-sm font-medium text-text-primary">
+                              {task.company || task.clientId?.name || "Unknown"}
+                            </span>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <span className="text-xs text-text-muted mb-1">Difficulty</span>
+                            <span className="text-sm font-medium text-text-primary capitalize px-2 py-0.5 bg-slate-100 rounded">
+                              {task.difficulty || "Medium"}
+                            </span>
+                          </div>
                         </div>
-                        <motion.div
-                          whileHover={{ x: 5 }}
-                          className="inline-block"
-                        >
+
+                        <div className="mt-6 pt-4">
                           <Link
                             to={`/task-details/${task._id || task.id}`}
-                            className="flex items-center text-cyan-500 hover:text-cyan-400"
+                            className="block w-full text-center py-2.5 px-4 bg-white border border-border text-text-primary font-medium rounded-xl hover:bg-slate-50 transition-colors"
                           >
-                            View Task <span className="ml-1">→</span>
+                            View Details
                           </Link>
-                        </motion.div>
+                        </div>
                       </div>
                     </motion.div>
                   ))}
                 </motion.div>
               ) : (
-                <div className="py-12 text-center">
-                  <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-500/20">
-                    <svg
-                      className="w-8 h-8 text-indigo-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
+                <div className="py-20 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                  <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-white shadow-sm text-3xl">
+                    📂
                   </div>
-                  <h3 className="mb-2 text-xl font-semibold text-slate-50">
+                  <h3 className="mb-2 text-xl font-semibold text-text-primary">
                     No Featured Tasks Available
                   </h3>
-                  <p className="mb-4 text-slate-400">
+                  <p className="mb-6 text-text-secondary max-w-md mx-auto">
                     Check back later for new featured opportunities, or explore
                     all available tasks.
                   </p>
                   <div className="flex items-center justify-center gap-3">
                     <button
                       onClick={fetchFeaturedTasks}
-                      className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-500"
+                      className="px-6 py-2.5 text-sm font-medium text-white bg-primary rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/20"
                     >
                       Refresh Tasks
                     </button>
                     <Link
                       to="/exploretask"
-                      className="px-4 py-2 text-sm font-medium text-indigo-300 border border-indigo-500 rounded-md hover:bg-indigo-800/30"
+                      className="px-6 py-2.5 text-sm font-medium text-text-primary bg-white border border-border rounded-xl hover:bg-slate-50"
                     >
                       Browse All Tasks
                     </Link>
@@ -1052,13 +987,13 @@ const Dashboard = () => {
       {/* Testimonials Section */}
       <div
         ref={testimonialsRef}
-        className="relative z-10 py-16 bg-gradient-to-b from-indigo-800 to-indigo-900"
+        className="relative z-10 py-20 bg-background"
       >
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.h2
             {...fadeInUp}
             animate={testimonialsInView ? "animate" : "initial"}
-            className="mb-12 text-3xl font-bold text-center text-slate-50"
+            className="mb-12 text-3xl font-bold text-center text-text-primary"
           >
             What Our Users Say
           </motion.h2>
@@ -1070,18 +1005,24 @@ const Dashboard = () => {
           >
             <motion.div
               variants={fadeInUp}
-              className="p-6 transition-all duration-300 border rounded-lg shadow-lg border-slate-600 bg-indigo-800/50 backdrop-blur-sm hover:shadow-xl hover:shadow-indigo-900/30"
+              className="p-8 transition-all duration-300 border rounded-2xl shadow-sm border-slate-100 bg-white hover:shadow-lg"
             >
-              <p className="mb-4 text-slate-300">
+              <div className="flex gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <span key={i} className="text-amber-400">★</span>
+                ))}
+              </div>
+              <p className="mb-6 text-text-primary text-lg leading-relaxed italic">
                 "I found my ideal tasks quickly. The platform's easy to use and
                 payments are always on time."
               </p>
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">DJ</div>
                 <div>
-                  <div className="font-semibold text-indigo-400">
+                  <div className="font-bold text-text-primary">
                     David Johnson
                   </div>
-                  <div className="text-sm text-slate-400">
+                  <div className="text-sm text-text-secondary">
                     Frontend Developer
                   </div>
                 </div>
@@ -1089,18 +1030,24 @@ const Dashboard = () => {
             </motion.div>
             <motion.div
               variants={fadeInUp}
-              className="p-6 transition-all duration-300 border rounded-lg shadow-lg border-slate-600 bg-indigo-800/50 backdrop-blur-sm hover:shadow-xl hover:shadow-indigo-900/30"
+              className="p-8 transition-all duration-300 border rounded-2xl shadow-sm border-slate-100 bg-white hover:shadow-lg"
             >
-              <p className="mb-4 text-slate-300">
+              <div className="flex gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <span key={i} className="text-amber-400">★</span>
+                ))}
+              </div>
+              <p className="mb-6 text-text-primary text-lg leading-relaxed italic">
                 "As a tech startup, finding reliable developers was a challenge.
                 codexa made it simple and efficient."
               </p>
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold">MC</div>
                 <div>
-                  <div className="font-semibold text-indigo-400">
+                  <div className="font-bold text-text-primary">
                     Michael Chen
                   </div>
-                  <div className="text-sm text-slate-400">
+                  <div className="text-sm text-text-secondary">
                     Tech Startup Founder
                   </div>
                 </div>
@@ -1113,14 +1060,20 @@ const Dashboard = () => {
       {/* CTA Section */}
       <div
         ref={ctaRef}
-        className="relative z-10 py-16 bg-gradient-to-t from-indigo-950 to-indigo-900"
+        className="relative z-10 py-24 overflow-hidden"
       >
-        <div className="px-4 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-primary">
+          <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-900/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-20 px-4 mx-auto text-center max-w-4xl sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0 }}
             animate={ctaInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-4 text-3xl font-bold text-slate-50"
+            className="mb-6 text-4xl font-bold text-white tracking-tight"
           >
             Ready to Start Your Coding Journey?
           </motion.h2>
@@ -1128,9 +1081,9 @@ const Dashboard = () => {
             initial={{ opacity: 0 }}
             animate={ctaInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-8 text-slate-300"
+            className="mb-10 text-xl text-indigo-100/90 leading-relaxed max-w-2xl mx-auto"
           >
-            Join thousands of developers earning income on codexa
+            Join thousands of developers earning income, building portfolios, and growing their careers on Codexa.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1138,12 +1091,13 @@ const Dashboard = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            className="inline-block"
           >
             <Link
               to="/signup"
-              className="px-8 py-3 text-lg font-medium transition-all duration-300 bg-yellow-500 rounded-md shadow-lg text-indigo-950 hover:bg-yellow-400 shadow-yellow-500/20"
+              className="px-10 py-4 text-lg font-bold transition-all duration-300 bg-white rounded-xl shadow-2xl text-primary hover:bg-slate-50 hover:shadow-white/20"
             >
-              Get Started
+              Get Started Now
             </Link>
           </motion.div>
         </div>

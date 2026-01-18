@@ -59,28 +59,28 @@ const AdminDashboard = () => {
       title: "Total Users",
       value: stats.totalUsers || 0,
       icon: Users,
-      color: "bg-blue-500",
+      color: "bg-blue-100 text-blue-600",
       link: "/admin/users",
     },
     {
       title: "Total Tasks",
       value: stats.totalTasks || 0,
       icon: FileText,
-      color: "bg-green-500",
+      color: "bg-green-100 text-green-600",
       link: "/admin/tasks",
     },
     {
       title: "Pending Applications",
       value: stats.pendingReviews || 0,
       icon: Clock,
-      color: "bg-amber-500",
+      color: "bg-amber-100 text-amber-600",
       link: "/admin/applications?status=pending",
     },
     {
       title: "Completed Tasks",
       value: stats.completedTasks || 0,
       icon: UserCheck,
-      color: "bg-indigo-500",
+      color: "bg-indigo-100 text-indigo-600",
       link: "/admin/tasks?status=completed",
     },
   ];
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
       title: "User Management",
       description: "View, edit, and manage user accounts",
       icon: Users,
-      color: "bg-blue-600",
+      color: "bg-blue-50 text-blue-600",
       link: "/admin/users",
       endpoint: "/api/admin/users",
     },
@@ -99,7 +99,7 @@ const AdminDashboard = () => {
       title: "Task Management",
       description: "Create, edit, and delete tasks",
       icon: FileText,
-      color: "bg-green-600",
+      color: "bg-green-50 text-green-600",
       link: "/admin/tasks",
       endpoint: "/api/admin/tasks",
     },
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
       title: "Application Review",
       description: "Review and process task applications",
       icon: TrendingUp,
-      color: "bg-amber-600",
+      color: "bg-amber-50 text-amber-600",
       link: "/admin/applications",
       endpoint: "/api/admin/applications",
     },
@@ -115,7 +115,7 @@ const AdminDashboard = () => {
       title: "Activity Logs",
       description: "Track system activity",
       icon: Activity,
-      color: "bg-purple-600",
+      color: "bg-purple-50 text-purple-600",
       link: "/admin/activity-logs",
       endpoint: "/api/admin/activity-logs",
     },
@@ -126,8 +126,8 @@ const AdminDashboard = () => {
     return (
       <div className="flex items-center justify-center h-80">
         <div className="text-center">
-          <div className="w-12 h-12 mx-auto mb-4 border-4 rounded-full border-t-indigo-500 border-indigo-200/30 animate-spin"></div>
-          <p className="text-gray-400">Loading dashboard data...</p>
+          <div className="w-12 h-12 mx-auto mb-4 border-4 rounded-full border-t-primary border-primary/20 animate-spin"></div>
+          <p className="text-text-secondary">Loading dashboard data...</p>
         </div>
       </div>
     );
@@ -136,15 +136,15 @@ const AdminDashboard = () => {
   // Error state
   if (error) {
     return (
-      <div className="max-w-lg p-6 mx-auto border rounded-xl bg-red-500/10 border-red-500/20">
+      <div className="max-w-lg p-6 mx-auto border rounded-xl bg-red-50 border-red-200">
         <div className="flex items-center gap-3 mb-4">
-          <AlertCircle className="w-6 h-6 text-red-400" />
-          <h2 className="text-xl font-semibold text-red-400">Error</h2>
+          <AlertCircle className="w-6 h-6 text-red-500" />
+          <h2 className="text-xl font-semibold text-red-700">Error</h2>
         </div>
-        <p className="mb-4 text-gray-300">{error}</p>
+        <p className="mb-4 text-red-600">{error}</p>
         <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 text-white transition-colors bg-red-500 rounded-lg hover:bg-red-600"
+          className="px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700"
         >
           Retry
         </button>
@@ -156,8 +156,8 @@ const AdminDashboard = () => {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-        <p className="mt-1 text-gray-400">Platform overview and management</p>
+        <h1 className="text-3xl font-bold text-text-primary">Admin Dashboard</h1>
+        <p className="mt-1 text-text-secondary">Platform overview and management</p>
       </div>
 
       {/* Stats Overview */}
@@ -171,17 +171,17 @@ const AdminDashboard = () => {
           >
             <Link
               to={stat.link}
-              className="block p-6 transition-all duration-200 border bg-white/5 border-white/10 rounded-xl hover:bg-white/10"
+              className="block p-6 transition-all duration-200 border bg-white border-border rounded-xl hover:shadow-lg hover:border-indigo-200"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-sm text-gray-400">{stat.title}</p>
-                  <h3 className="mt-2 text-3xl font-bold text-white">
+                  <p className="text-sm font-medium text-text-secondary">{stat.title}</p>
+                  <h3 className="mt-2 text-3xl font-bold text-text-primary">
                     {stat.value.toLocaleString()}
                   </h3>
                 </div>
-                <div className={`p-3 rounded-lg ${stat.color}`}>
-                  <stat.icon className="w-5 h-5 text-white" />
+                <div className={`p-3 rounded-xl ${stat.color}`}>
+                  <stat.icon className="w-5 h-5" />
                 </div>
               </div>
             </Link>
@@ -191,15 +191,17 @@ const AdminDashboard = () => {
 
       {/* Completed Tasks Table */}
       <div>
-        <h2 className="mb-4 text-xl font-semibold text-white">
+        <h2 className="mb-4 text-xl font-semibold text-text-primary">
           Completed Tasks
         </h2>
-        <CompletedTasksTable />
+        <div className="bg-white border rounded-xl border-border shadow-sm overflow-hidden">
+          <CompletedTasksTable />
+        </div>
       </div>
 
       {/* Main Admin Functions */}
       <div>
-        <h2 className="mb-4 text-xl font-semibold text-white">Quick Actions</h2>
+        <h2 className="mb-4 text-xl font-semibold text-text-primary">Quick Actions</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {adminActions.map((action, index) => (
             <motion.div
@@ -210,17 +212,17 @@ const AdminDashboard = () => {
             >
               <Link
                 to={action.link}
-                className="flex items-start p-6 transition-all duration-200 border bg-white/5 border-white/10 rounded-xl hover:bg-white/10"
+                className="flex items-start p-6 transition-all duration-200 border bg-white border-border rounded-xl hover:shadow-lg hover:border-indigo-200 group"
               >
-                <div className={`p-3 rounded-lg ${action.color} mr-4`}>
-                  <action.icon className="w-5 h-5 text-white" />
+                <div className={`p-3 rounded-xl ${action.color} mr-4 group-hover:scale-110 transition-transform`}>
+                  <action.icon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
+                  <h3 className="text-lg font-semibold text-text-primary group-hover:text-primary transition-colors">
                     {action.title}
                   </h3>
-                  <p className="mt-1 text-gray-400">{action.description}</p>
-                  <div className="mt-2 text-xs text-gray-500">
+                  <p className="mt-1 text-sm text-text-secondary">{action.description}</p>
+                  <div className="mt-2 text-xs text-text-muted font-mono bg-slate-50 inline-block px-2 py-1 rounded border border-slate-100">
                     API: {action.endpoint}
                   </div>
                 </div>
@@ -231,22 +233,22 @@ const AdminDashboard = () => {
       </div>
 
       {/* System Status */}
-      <div className="p-6 border bg-white/5 border-white/10 rounded-xl">
+      <div className="p-6 border bg-white border-border rounded-xl shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-white">System Status</h2>
+          <h2 className="text-xl font-semibold text-text-primary">System Status</h2>
           <div className="flex items-center">
-            <div className="w-2 h-2 mr-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-green-400">API Connected</span>
+            <div className="w-2.5 h-2.5 mr-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium text-green-600">API Connected</span>
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
-          <div className="p-3 rounded-lg bg-white/5">
-            <div className="text-gray-400">Backend API</div>
-            <div className="font-medium text-white">http://localhost:5002</div>
+          <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="text-text-secondary mb-1">Backend API</div>
+            <div className="font-mono text-text-primary">http://localhost:5002</div>
           </div>
-          <div className="p-3 rounded-lg bg-white/5">
-            <div className="text-gray-400">Last Updated</div>
-            <div className="font-medium text-white">
+          <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="text-text-secondary mb-1">Last Updated</div>
+            <div className="font-mono text-text-primary">
               {new Date().toLocaleTimeString()}
             </div>
           </div>

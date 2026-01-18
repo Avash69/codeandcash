@@ -1,10 +1,9 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import enhancedTaskAPI from "../../api/enhancedTaskAPI";
 
 const Applytask = () => {
-  // Get task ID from URL parameters (if available)
-
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -16,11 +15,9 @@ const Applytask = () => {
       setLoading(true);
       setError("");
       try {
-        // Log the id for debugging
-        console.log("Applying for task with id (should be MongoDB _id):", id);
         // Call backend to apply for the task (send empty message if none)
         const response = await enhancedTaskAPI.applyForTask(id, "");
-        // The backend returns { success, message, data: { ...application } }
+
         if (
           (response.success || response.status === "success") &&
           response.data
@@ -37,7 +34,7 @@ const Applytask = () => {
                 },
               },
             });
-          }, 1200);
+          }, 1500);
         } else {
           setError(response.message || "Failed to apply for task.");
         }
@@ -52,12 +49,11 @@ const Applytask = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-indigo-950">
-        <div className="text-center">
-          <div className="w-12 h-12 mx-auto mb-4 border-4 rounded-full border-indigo-500/30 animate-spin border-t-indigo-500"></div>
-          <div className="text-lg text-slate-200">
-            Submitting your application...
-          </div>
+      <div className="flex items-center justify-center min-h-screen bg-slate-50">
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 mb-4 border-4 rounded-full border-slate-200 animate-spin border-t-indigo-600"></div>
+          <h2 className="text-xl font-semibold text-text-primary">Submitting Application</h2>
+          <p className="text-text-secondary mt-2">Please wait while we process your request...</p>
         </div>
       </div>
     );
@@ -65,27 +61,40 @@ const Applytask = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-indigo-950">
-        <div className="p-8 text-center rounded-lg shadow-lg bg-red-900/80">
-          <div className="mb-2 text-2xl text-red-300">
-            ❌ Application Failed
+      <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md p-8 text-center bg-white border border-red-100 rounded-2xl shadow-xl"
+        >
+          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-red-50 rounded-full text-red-500">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </div>
-          <div className="mb-4 text-slate-200">{error}</div>
-          <Link to="/exploretask" className="text-cyan-400 hover:underline">
+          <h2 className="mb-2 text-2xl font-bold text-text-primary">Application Failed</h2>
+          <p className="mb-6 text-text-secondary leading-relaxed">{error}</p>
+          <Link
+            to="/exploretask"
+            className="inline-flex items-center justify-center px-6 py-3 font-medium text-white transition-all bg-primary rounded-xl hover:bg-primary-hover shadow-md hover:shadow-lg"
+          >
             Browse More Tasks
           </Link>
-        </div>
+        </motion.div>
       </div>
     );
   }
 
-  // If application succeeded, show a quick success message (redirect happens automatically)
   return (
-    <div className="flex items-center justify-center min-h-screen bg-indigo-950">
-      <div className="p-8 text-center rounded-lg shadow-lg bg-indigo-900/80">
-        <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-800/50">
+    <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-md p-8 text-center bg-white border border-border rounded-2xl shadow-xl"
+      >
+        <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 bg-emerald-50 rounded-full text-emerald-500 border border-emerald-100">
           <svg
-            className="w-8 h-8 text-green-400"
+            className="w-10 h-10"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -98,21 +107,31 @@ const Applytask = () => {
             />
           </svg>
         </div>
-        <div className="mb-2 text-2xl font-bold text-slate-50">
+        <h2 className="mb-2 text-2xl font-bold text-text-primary">
           Application Submitted!
-        </div>
-        <div className="mb-2 text-slate-300">
-          Redirecting to your applied tasks...
-        </div>
+        </h2>
+        <p className="mb-6 text-text-secondary">
+          Redirecting to your dashboard...
+        </p>
+
         {application && (
-          <div className="mt-2 text-sm text-slate-400">
-            Task:{" "}
-            <span className="font-semibold text-slate-200">
-              {application.taskId?.title}
-            </span>
+          <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl mb-4">
+            <p className="text-xs text-text-muted uppercase tracking-wider font-semibold mb-1">Applied For</p>
+            <p className="font-medium text-text-primary">
+              {application.taskId?.title || "Task Application"}
+            </p>
           </div>
         )}
-      </div>
+
+        <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+          <motion.div
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1.5 }}
+            className="h-full bg-primary"
+          />
+        </div>
+      </motion.div>
     </div>
   );
 };

@@ -10,26 +10,26 @@ const customStyles = `
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: #ffffff;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    border: 2px solid #6366f1;
     transition: all 0.2s ease;
   }
   
   .slider::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
   }
 
   .slider::-moz-range-thumb {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: #ffffff;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    border: 2px solid #6366f1;
     transition: all 0.2s ease;
   }
 
@@ -45,10 +45,6 @@ const customStyles = `
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  .backdrop-blur {
-    backdrop-filter: blur(10px);
   }
 `;
 
@@ -69,10 +65,10 @@ const FILTER_CATEGORIES = [
 ];
 
 const DIFFICULTIES = [
-  { id: "all", label: "All Difficulties", color: "text-gray-400" },
-  { id: "easy", label: "Easy", color: "text-green-500" },
-  { id: "medium", label: "Medium", color: "text-yellow-500" },
-  { id: "hard", label: "Hard", color: "text-red-500" },
+  { id: "all", label: "All Difficulties" },
+  { id: "easy", label: "Easy" },
+  { id: "medium", label: "Medium" },
+  { id: "hard", label: "Hard" },
 ];
 
 // Animation variants for consistent motion design
@@ -91,17 +87,17 @@ const ANIMATION_VARIANTS = {
     animate: { opacity: 1, x: 0 },
   },
   scaleOnHover: {
-    whileHover: { scale: 1.02 },
-    whileTap: { scale: 0.98 },
+    whileHover: { scale: 1.01 },
+    whileTap: { scale: 0.99 },
   },
 };
 
-// Enhanced Price Range Slider with better UX
+// Enhanced Price Range Slider with better UX - Light Theme
 const PriceRangeSlider = ({ value, onChange }) => {
   return (
     <div className="mb-8">
-      <h3 className="flex items-center mb-4 font-medium text-text-primary">
-        <span className="mr-2">💰</span>
+      <h3 className="flex items-center mb-4 font-semibold text-text-primary">
+        <span className="mr-2 text-primary">💰</span>
         Price Range
       </h3>
       <div className="space-y-4">
@@ -112,27 +108,26 @@ const PriceRangeSlider = ({ value, onChange }) => {
             max="5000"
             value={value}
             onChange={(e) => onChange(parseInt(e.target.value))}
-            className="w-full h-3 rounded-lg appearance-none cursor-pointer bg-navy-light accent-indigo slider"
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-200 accent-primary slider"
             style={{
-              background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${
-                (value / 5000) * 100
-              }%, #1e293b ${(value / 5000) * 100}%, #1e293b 100%)`,
+              background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${(value / 5000) * 100
+                }%, #e2e8f0 ${(value / 5000) * 100}%, #e2e8f0 100%)`,
             }}
           />
         </div>
         <div className="flex items-center justify-between text-sm">
-          <span className="px-2 py-1 rounded bg-navy-light text-text-secondary">
+          <span className="px-3 py-1 font-medium rounded-lg bg-slate-100 text-text-secondary">
             $0
           </span>
           <motion.span
             key={value}
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
-            className="px-3 py-1 font-bold text-white rounded-lg shadow-lg bg-gradient-to-r from-indigo to-purple-600"
+            className="px-3 py-1 font-bold text-white shadow-md rounded-lg bg-primary"
           >
             ${value.toLocaleString()}
           </motion.span>
-          <span className="px-2 py-1 rounded bg-navy-light text-text-secondary">
+          <span className="px-3 py-1 font-medium rounded-lg bg-slate-100 text-text-secondary">
             $5,000
           </span>
         </div>
@@ -141,7 +136,7 @@ const PriceRangeSlider = ({ value, onChange }) => {
   );
 };
 
-// Enhanced Sidebar Filter with better visual design
+// Enhanced Sidebar Filter with better visual design - Light Theme
 const SidebarFilter = ({
   title,
   options,
@@ -151,29 +146,28 @@ const SidebarFilter = ({
 }) => {
   return (
     <div className="mb-8">
-      <h3 className="flex items-center mb-4 font-medium text-text-primary">
-        {title === "Categories" && <span className="mr-2">📂</span>}
-        {title === "Difficulty" && <span className="mr-2">⚡</span>}
+      <h3 className="flex items-center mb-4 font-semibold text-text-primary">
+        {title === "Categories" && <span className="mr-2 text-primary">📂</span>}
+        {title === "Difficulty" && <span className="mr-2 text-primary">⚡</span>}
         {title}
       </h3>
-      <div className="space-y-2">
+      <div className="space-y-1">
         {options.map((option) => {
           const isSelected = selected === option.id;
           return (
             <motion.button
               key={option.id}
               {...ANIMATION_VARIANTS.scaleOnHover}
-              className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 border ${
-                isSelected
-                  ? "bg-gradient-to-r from-indigo to-purple-600 text-white border-indigo shadow-lg shadow-indigo/25"
-                  : "text-text-secondary hover:bg-navy-light border-transparent hover:border-border hover:shadow-md"
-              }`}
+              className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 border ${isSelected
+                  ? "bg-indigo-50 text-indigo-700 border-indigo-200 shadow-sm"
+                  : "text-text-secondary hover:bg-slate-50 border-transparent hover:border-slate-200"
+                }`}
               onClick={() => onChange(option.id)}
             >
               <div className="flex items-center justify-between">
-                <span className="flex items-center">
+                <span className="flex items-center font-medium">
                   {showIcons && option.icon && (
-                    <span className="mr-2 text-lg">{option.icon}</span>
+                    <span className="mr-3 opacity-80">{option.icon}</span>
                   )}
                   {option.label}
                 </span>
@@ -181,9 +175,11 @@ const SidebarFilter = ({
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="text-white"
+                    className="text-indigo-600"
                   >
-                    ✓
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   </motion.span>
                 )}
               </div>
@@ -195,129 +191,101 @@ const SidebarFilter = ({
   );
 };
 
-// Enhanced Task Card with better visual hierarchy and interactions
+// Enhanced Task Card with better visual hierarchy and interactions - Light Theme
 const TaskCard = ({ task, index }) => {
   // Helper function to get difficulty styling
   const getDifficultyStyle = (difficulty) => {
     const styles = {
-      Easy: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-      Medium: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-      Hard: "bg-red-500/20 text-red-400 border-red-500/30",
+      Easy: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      Medium: "bg-amber-50 text-amber-700 border-amber-200",
+      Hard: "bg-red-50 text-red-700 border-red-200",
     };
-    return styles[difficulty] || styles.Easy;
+    const difficultyKey = difficulty ? (difficulty.charAt(0).toUpperCase() + difficulty.slice(1).toLowerCase()) : "Easy";
+    return styles[difficultyKey] || styles.Easy;
   };
 
   return (
     <motion.div
       {...ANIMATION_VARIANTS.fadeInUp}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ scale: 1.02, y: -8 }}
-      className="p-6 transition-all duration-300 border shadow-lg group rounded-xl bg-gradient-to-br from-navy-light to-navy border-border hover:shadow-2xl hover:shadow-indigo/10 hover:border-indigo/30"
+      whileHover={{ y: -5 }}
+      className="group relative p-6 bg-white border border-border rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all duration-300"
     >
-      {/* Header with company info */}
-      <div className="flex items-center mb-4">
-        <motion.div
-          whileHover={{ rotate: 360 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center justify-center w-10 h-10 rounded-full shadow-lg bg-gradient-to-r from-indigo to-purple-600"
-        >
-          <span className="text-sm font-bold text-white">
-            {task.company[0]}
-          </span>
-        </motion.div>
-        <div className="flex-1 ml-3">
-          <span className="font-semibold transition-colors text-text-primary group-hover:text-indigo">
-            {task.company}
+      {/* Hover Highlight Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-purple-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Header with company info */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl shadow-sm bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-lg">
+              {task.company ? task.company.charAt(0).toUpperCase() : "C"}
+            </div>
+            <div>
+              <h4 className="font-semibold text-text-primary group-hover:text-primary transition-colors">
+                {task.company}
+              </h4>
+              <span className="text-xs text-text-secondary flex items-center gap-1">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {task.duration} days
+              </span>
+            </div>
+          </div>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-bold border ${getDifficultyStyle(
+              task.difficulty
+            )}`}
+          >
+            {task.difficulty}
           </span>
         </div>
-        <motion.span
-          whileHover={{ scale: 1.1 }}
-          className={`px-3 py-1 rounded-full text-xs font-medium border ${getDifficultyStyle(
-            task.difficulty
-          )}`}
-        >
-          {task.difficulty}
-        </motion.span>
-      </div>
 
-      {/* Task title and description */}
-      <h3 className="mb-3 text-xl font-bold transition-colors text-text-primary group-hover:text-indigo line-clamp-2">
-        {task.title}
-      </h3>
-      <p className="mb-6 leading-relaxed text-text-secondary line-clamp-3">
-        {task.description}
-      </p>
+        {/* Task title and description */}
+        <div className="mb-6">
+          <h3 className="mb-2 text-xl font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-2">
+            {task.title}
+          </h3>
+          <p className="text-text-secondary leading-relaxed line-clamp-3 text-sm">
+            {task.description}
+          </p>
+        </div>
 
-      {/* Task details */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <div className="p-2 rounded-lg bg-gradient-to-r from-yellow-500/20 to-orange-500/20">
-            <span className="text-2xl font-bold text-transparent bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text">
+        {/* Task details footer */}
+        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+          <div className="flex flex-col">
+            <span className="text-xs text-text-muted uppercase tracking-wider font-semibold">Payout</span>
+            <span className="text-lg font-bold text-text-primary">
               ${task.payout.toLocaleString()}
             </span>
           </div>
-        </div>
-        <div className="flex items-center space-x-4 text-text-secondary">
-          <div className="flex items-center">
-            <svg
-              className="w-4 h-4 mr-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+
+          <Link to={`/task-details/${task._id || task.id}`} className="block">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 px-5 py-2.5 font-medium text-white transition-all rounded-xl shadow-md bg-primary hover:bg-primary-hover hover:shadow-lg"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="text-sm">{task.duration} days</span>
-          </div>
-          <div className="flex items-center">
-            <svg
-              className="w-4 h-4 mr-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-              />
-            </svg>
-            <span className="text-sm capitalize">{task.category}</span>
-          </div>
+              <span>Details</span>
+              <svg
+                className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </motion.button>
+          </Link>
         </div>
       </div>
-
-      {/* Action button */}
-      <Link to={`/task-details/${task._id || task.id}`} className="block">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-full px-4 py-3 font-medium text-white transition-all duration-200 rounded-lg shadow-lg bg-gradient-to-r from-indigo to-purple-600 hover:shadow-xl hover:shadow-indigo/25 focus:outline-none focus:ring-2 focus:ring-indigo focus:ring-offset-2 focus:ring-offset-navy"
-        >
-          <span className="flex items-center justify-center">
-            View Details
-            <svg
-              className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </span>
-        </motion.button>
-      </Link>
     </motion.div>
   );
 };
@@ -338,7 +306,7 @@ const Exploretask = () => {
         setIsLoading(true);
         setError("");
 
-        // Get tasks directly from the service (no fallback logic needed)
+        // Get tasks directly from the service
         const fetchedTasks = await getTasks();
 
         console.log("📋 Fetched tasks from service:", fetchedTasks);
@@ -357,14 +325,12 @@ const Exploretask = () => {
     fetchTasks();
   }, []);
 
-  // Filter logic with better performance
+  // Filter logic
   const filteredTasks = tasks.filter((task) => {
     if (!task) return false;
 
-    console.log("🔍 Filtering task:", task);
-
     const matchesCategory =
-      selectedCategory === "all" || task.category === selectedCategory;
+      selectedCategory === "all" || (task.category && task.category.toLowerCase() === selectedCategory);
     const matchesDifficulty =
       selectedDifficulty === "all" ||
       (task.difficulty && task.difficulty.toLowerCase() === selectedDifficulty);
@@ -378,13 +344,6 @@ const Exploretask = () => {
         task.company.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesPrice = !task.payout || task.payout <= maxPrice;
 
-    console.log("Filter results:", {
-      matchesCategory,
-      matchesDifficulty,
-      matchesSearch,
-      matchesPrice,
-    });
-
     return (
       matchesCategory && matchesDifficulty && matchesSearch && matchesPrice
     );
@@ -395,51 +354,50 @@ const Exploretask = () => {
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="col-span-2 py-16 text-center"
+      className="col-span-2 py-20 text-center"
     >
       <div className="mb-6">
-        <div className="flex items-center justify-center w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-indigo/20 to-purple-600/20">
-          <span className="text-4xl">🔍</span>
+        <div className="flex items-center justify-center w-20 h-20 mx-auto mb-4 rounded-full bg-slate-100 text-4xl">
+          🔍
         </div>
-        <h3 className="mb-2 text-xl font-semibold text-text-primary">
+        <h3 className="mb-2 text-xl font-bold text-text-primary">
           No tasks found
         </h3>
-        <p className="max-w-md mx-auto text-text-secondary">
-          Try adjusting your filters or search terms to find more tasks that
-          match your criteria.
+        <p className="max-w-md mx-auto text-text-secondary mb-8">
+          We couldn't find any tasks matching your criteria. Try adjusting your filters or search terms.
         </p>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            setSelectedCategory("all");
+            setSelectedDifficulty("all");
+            setSearchQuery("");
+            setMaxPrice(5000);
+          }}
+          className="px-6 py-2.5 font-medium text-white transition-colors rounded-xl bg-primary hover:bg-primary-hover shadow-md hover:shadow-lg"
+        >
+          Clear All Filters
+        </motion.button>
       </div>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => {
-          setSelectedCategory("all");
-          setSelectedDifficulty("all");
-          setSearchQuery("");
-          setMaxPrice(5000);
-        }}
-        className="px-6 py-2 text-white transition-colors rounded-lg bg-indigo hover:bg-indigo-hover"
-      >
-        Clear Filters
-      </motion.button>
     </motion.div>
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-navy via-navy-light to-navy">
-      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Enhanced Header */}
+    <div className="min-h-screen bg-slate-50">
+      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        {/* Enhanced Header - Light Theme */}
         <motion.div
           {...ANIMATION_VARIANTS.fadeInUp}
           transition={{ duration: 0.6 }}
-          className="flex flex-col justify-between gap-6 mb-8 lg:flex-row lg:items-center"
+          className="flex flex-col justify-between gap-8 mb-12 lg:flex-row lg:items-end"
         >
-          <div>
-            <h1 className="mb-2 text-4xl font-bold text-transparent bg-gradient-to-r from-indigo to-purple-600 bg-clip-text">
-              Explore Tasks
+          <div className="max-w-2xl">
+            <h1 className="mb-4 text-4xl font-bold text-text-primary tracking-tight lg:text-5xl">
+              Explore <span className="text-primary">Opportunities</span>
             </h1>
-            <p className="text-lg text-text-secondary">
-              Discover amazing opportunities and grow your skills
+            <p className="text-xl text-text-secondary leading-relaxed">
+              Discover projects that match your skills. Filter by category, difficulty, or price to find your next challenge.
             </p>
           </div>
 
@@ -447,9 +405,9 @@ const Exploretask = () => {
           <motion.div
             {...ANIMATION_VARIANTS.fadeInRight}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative lg:w-80"
+            className="relative w-full lg:w-96"
           >
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
               <svg
                 className="w-5 h-5 text-text-secondary"
                 fill="none"
@@ -466,15 +424,15 @@ const Exploretask = () => {
             </div>
             <input
               type="text"
-              placeholder="Search tasks, companies, or skills..."
+              placeholder="Search tasks, companies..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-3 pl-10 pr-4 transition-all duration-200 border rounded-xl border-border bg-navy-light/50 backdrop-blur text-text-primary focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent placeholder:text-text-secondary"
+              className="w-full py-4 pl-12 pr-12 transition-all duration-200 border rounded-2xl border-slate-200 bg-white text-text-primary shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary placeholder:text-text-muted"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-text-secondary hover:text-text-primary"
+                className="absolute inset-y-0 right-0 flex items-center pr-4 text-text-secondary hover:text-text-primary"
               >
                 <svg
                   className="w-5 h-5"
@@ -494,29 +452,14 @@ const Exploretask = () => {
           </motion.div>
         </motion.div>
 
-        {/* Results count */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mb-6"
-        >
-          <p className="text-text-secondary">
-            Showing{" "}
-            <span className="font-semibold text-indigo">
-              {filteredTasks.length}
-            </span>{" "}
-            of <span className="font-semibold">{tasks.length}</span> tasks
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-          {/* Enhanced Sidebar */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-10">
+          {/* Enhanced Sidebar - Light Theme */}
           <motion.div
             {...ANIMATION_VARIANTS.fadeInLeft}
             transition={{ duration: 0.6 }}
             className="lg:col-span-1"
           >
-            <div className="sticky p-6 border shadow-xl top-8 rounded-xl bg-navy-light/50 backdrop-blur border-border">
+            <div className="sticky p-6 bg-white border border-border shadow-sm rounded-2xl top-24">
               <SidebarFilter
                 title="Categories"
                 options={FILTER_CATEGORIES}
@@ -524,61 +467,57 @@ const Exploretask = () => {
                 onChange={setSelectedCategory}
                 showIcons={true}
               />
+              <div className="my-6 border-t border-slate-100"></div>
               <SidebarFilter
                 title="Difficulty"
                 options={DIFFICULTIES}
                 selected={selectedDifficulty}
                 onChange={setSelectedDifficulty}
               />
+              <div className="my-6 border-t border-slate-100"></div>
               <PriceRangeSlider value={maxPrice} onChange={setMaxPrice} />
-
-              {/* Quick Actions */}
-              <div className="pt-4 border-t border-border">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    setSelectedCategory("all");
-                    setSelectedDifficulty("all");
-                    setSearchQuery("");
-                    setMaxPrice(5000);
-                  }}
-                  className="w-full px-4 py-2 text-sm transition-colors border rounded-lg border-border text-text-secondary hover:text-text-primary hover:border-indigo"
-                >
-                  Clear All Filters
-                </motion.button>
-              </div>
             </div>
           </motion.div>
 
           {/* Enhanced Task Grid */}
           <div className="lg:col-span-3">
+            {/* Results count */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center justify-between mb-6"
+            >
+              <p className="text-text-secondary font-medium">
+                Showing <span className="text-text-primary font-bold">{filteredTasks.length}</span> results
+              </p>
+            </motion.div>
+
             <AnimatePresence mode="wait">
               {isLoading ? (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex items-center justify-center py-16"
+                  className="flex flex-col items-center justify-center py-20"
                 >
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 border-4 rounded-full border-indigo-500/30 animate-spin border-t-indigo-500"></div>
-                    <p className="text-slate-400">Loading available tasks...</p>
-                  </div>
+                  <div className="w-16 h-16 mb-4 border-4 rounded-full border-indigo-100 animate-spin border-t-indigo-600"></div>
+                  <p className="text-text-secondary font-medium">Finding the best tasks for you...</p>
                 </motion.div>
               ) : error ? (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="py-16 text-center"
+                  className="py-20 text-center"
                 >
-                  <div className="mb-4 text-red-400">❌ {error}</div>
+                  <div className="mb-4 text-red-500 text-5xl">⚠️</div>
+                  <h3 className="text-xl font-bold text-text-primary mb-2">Something went wrong</h3>
+                  <p className="text-text-secondary mb-6">{error}</p>
                   <button
                     onClick={() => window.location.reload()}
-                    className="px-4 py-2 text-white transition-colors bg-indigo-600 rounded-lg hover:bg-indigo-700"
+                    className="px-6 py-2.5 text-white transition-colors bg-primary rounded-xl hover:bg-primary-hover shadow-md"
                   >
-                    Retry
+                    Try Again
                   </button>
                 </motion.div>
               ) : (
@@ -588,7 +527,7 @@ const Exploretask = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="grid grid-cols-1 gap-6 xl:grid-cols-2"
+                  className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
                 >
                   {filteredTasks.length > 0 ? (
                     filteredTasks.map((task, index) => (

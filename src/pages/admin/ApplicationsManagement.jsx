@@ -18,13 +18,7 @@ import Pagination from "../../components/ui/Pagination";
 
 /**
  * Applications Management Component
- *
- * A clean, simplified applications management interface aligned with backend API endpoints:
- * - List Applications: GET /api/admin/applications?page=1&limit=20&filter=
- * - Get Application Details: GET /api/admin/applications/:id
- * - Update Application Status: PATCH /api/admin/applications/:id/status
- * - Bulk Status Update: PATCH /api/admin/applications/bulk-update
- * - Download Submission File: GET /api/admin/applications/:id/download/:fileId
+ * Refactored to Premium Light Theme.
  */
 const ApplicationsManagement = () => {
   const [applications, setApplications] = useState([]);
@@ -45,7 +39,7 @@ const ApplicationsManagement = () => {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [actionSuccess, setActionSuccess] = useState(null);
 
-  const itemsPerPage = 20; // Matches the API limit parameter
+  const itemsPerPage = 20;
 
   const fetchApplications = useCallback(async () => {
     try {
@@ -57,30 +51,19 @@ const ApplicationsManagement = () => {
         ...(statusFilter !== "all" && { status: statusFilter }),
       };
 
-      // API endpoint: GET /api/admin/applications?page=1&limit=20&filter=
       const response = await adminService.getApplications(
         currentPage,
         itemsPerPage,
         filters
       );
 
-      // Debug log: print the raw response and each application object
-      console.log("Applications API response:", response);
       if (response?.applications) {
-        console.log("Applications array:", response.applications);
-        response.applications.forEach((app, idx) => {
-          console.log(`Application[${idx}]:`, app);
-        });
         setApplications(response.applications);
         setTotalPages(
           response.totalPages || Math.ceil(response.total / itemsPerPage)
         );
         setTotalApplications(response.total || response.applications.length);
       } else if (Array.isArray(response)) {
-        console.log("Applications array:", response);
-        response.forEach((app, idx) => {
-          console.log(`Application[${idx}]:`, app);
-        });
         setApplications(response);
         setTotalPages(Math.ceil(response.length / itemsPerPage));
         setTotalApplications(response.length);
@@ -104,15 +87,12 @@ const ApplicationsManagement = () => {
   const handleStatusUpdate = async (applicationId, status, feedback = "") => {
     try {
       setLoading(true);
-
-      // API endpoint: PATCH /api/admin/applications/:id/status
       await adminService.updateApplicationStatus(
         applicationId,
         status,
         feedback
       );
 
-      // Update the local state to reflect the change
       setApplications((prevApplications) =>
         prevApplications.map((app) =>
           app._id === applicationId || app.id === applicationId
@@ -138,7 +118,6 @@ const ApplicationsManagement = () => {
     try {
       setLoading(true);
 
-      // API endpoint: PATCH /api/admin/applications/bulk-update
       await adminService.bulkUpdateApplications(
         selectedApplications,
         bulkStatusUpdate.status,
@@ -154,7 +133,7 @@ const ApplicationsManagement = () => {
       );
       setTimeout(() => setActionSuccess(null), 3000);
 
-      fetchApplications(); // Refresh the list
+      fetchApplications();
     } catch (err) {
       setError(`Error updating applications: ${err.message}`);
     } finally {
@@ -165,10 +144,7 @@ const ApplicationsManagement = () => {
   const viewApplicationDetails = async (applicationId) => {
     try {
       setLoading(true);
-
-      // API endpoint: GET /api/admin/applications/:id
       const details = await adminService.getApplicationDetails(applicationId);
-
       setSelectedApplication(details);
       setShowDetailsModal(true);
     } catch (err) {
@@ -178,16 +154,14 @@ const ApplicationsManagement = () => {
     }
   };
 
-  // Enhanced download handler: supports both TaskApplication and CompletedTask endpoints
   const downloadSubmissionFile = async (applicationId, file) => {
     try {
       let url = "";
       if (file.completedTaskId) {
         url = `/api/completed-tasks/${file.completedTaskId}/download`;
       } else {
-        url = `/api/admin/applications/${applicationId}/download/${
-          file._id || file.id
-        }`;
+        url = `/api/admin/applications/${applicationId}/download/${file._id || file.id
+          }`;
       }
       const response = await fetch(url, { credentials: "include" });
       if (!response.ok) throw new Error("File not found or server error");
@@ -223,20 +197,20 @@ const ApplicationsManagement = () => {
 
   const getStatusBadge = (status) => {
     const statusConfig = {
-      pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/40",
-      accepted: "bg-green-500/20 text-green-400 border-green-500/40",
-      rejected: "bg-red-500/20 text-red-400 border-red-500/40",
-      submitted: "bg-blue-500/20 text-blue-400 border-blue-500/40",
-      needs_revision: "bg-orange-500/20 text-orange-400 border-orange-500/40",
-      approved: "bg-green-500/20 text-green-400 border-green-500/40", // Alias for accepted
-      in_review: "bg-purple-500/20 text-purple-400 border-purple-500/40",
+      pending: "bg-amber-100 text-amber-700 border-amber-200",
+      accepted: "bg-emerald-100 text-emerald-700 border-emerald-200",
+      rejected: "bg-red-100 text-red-700 border-red-200",
+      submitted: "bg-blue-100 text-blue-700 border-blue-200",
+      needs_revision: "bg-orange-100 text-orange-700 border-orange-200",
+      approved: "bg-emerald-100 text-emerald-700 border-emerald-200",
+      in_review: "bg-purple-100 text-purple-700 border-purple-200",
     };
 
     const config = statusConfig[status] || statusConfig.pending;
 
     return (
-      <span className={`px-2.5 py-1 text-xs rounded-full border ${config}`}>
-        {status}
+      <span className={`px-2.5 py-0.5 text-xs font-semibold rounded-full border ${config}`}>
+        {status?.replace('_', ' ') || "unknown"}
       </span>
     );
   };
@@ -256,9 +230,9 @@ const ApplicationsManagement = () => {
 
   if (error) {
     return (
-      <div className="max-w-md p-6 mx-auto border border-red-500 rounded-lg bg-red-900/20">
-        <h2 className="mb-2 text-xl font-bold text-red-400">Error</h2>
-        <p className="mb-4 text-red-300">{error}</p>
+      <div className="max-w-md p-6 mx-auto border border-red-200 rounded-lg bg-red-50">
+        <h2 className="mb-2 text-xl font-bold text-red-700">Error</h2>
+        <p className="mb-4 text-red-600">{error}</p>
         <button
           onClick={fetchApplications}
           className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
@@ -271,28 +245,31 @@ const ApplicationsManagement = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header with actions */}
+      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
-        <h1 className="text-2xl font-bold text-white">
-          Application Management
-        </h1>
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary">
+            Application Management
+          </h1>
+          <p className="text-text-secondary mt-1">Review and process applications</p>
+        </div>
 
-        <div className="text-sm text-gray-400">
+        <div className="text-sm text-text-muted">
           Total:{" "}
-          <span className="font-semibold text-white">{totalApplications}</span>{" "}
+          <span className="font-semibold text-text-primary">{totalApplications}</span>{" "}
           applications
         </div>
       </div>
 
-      {/* Filters and search */}
+      {/* Filters */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Search className="w-4 h-4 text-gray-400" />
+            <Search className="w-4 h-4 text-text-muted" />
           </div>
           <input
             type="text"
-            className="w-full py-2 pl-10 pr-4 text-white placeholder-gray-400 border rounded-lg bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full py-2 pl-10 pr-4 text-text-primary placeholder-text-muted border rounded-lg bg-white border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="Search applications..."
             value={searchTerm}
             onChange={(e) => {
@@ -303,7 +280,7 @@ const ApplicationsManagement = () => {
         </div>
 
         <select
-          className="px-4 py-2 text-white border rounded-lg bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="px-4 py-2 text-text-primary border rounded-lg bg-white border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           value={statusFilter}
           onChange={(e) => {
             setStatusFilter(e.target.value);
@@ -320,35 +297,17 @@ const ApplicationsManagement = () => {
         </select>
       </div>
 
-      {/* Success and error messages */}
+      {/* Success Messages */}
       <AnimatePresence>
         {actionSuccess && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex items-center gap-2 p-4 text-green-400 border rounded-lg bg-green-500/10 border-green-500/20"
+            className="flex items-center gap-2 p-4 text-green-700 border rounded-lg bg-green-50 border-green-200"
           >
             <Check className="w-5 h-5" />
             <span>{actionSuccess}</span>
-          </motion.div>
-        )}
-
-        {error && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="flex items-center gap-2 p-4 text-red-400 border rounded-lg bg-red-500/10 border-red-500/20"
-          >
-            <AlertCircle className="w-5 h-5" />
-            <span>{error}</span>
-            <button
-              className="ml-auto text-red-400 hover:text-red-300"
-              onClick={() => setError(null)}
-            >
-              <X className="w-4 h-4" />
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -358,10 +317,10 @@ const ApplicationsManagement = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col items-center justify-between gap-4 p-4 border rounded-lg bg-white/5 border-white/10 sm:flex-row"
+          className="flex flex-col items-center justify-between gap-4 p-4 border rounded-lg bg-indigo-50 border-indigo-100 sm:flex-row"
         >
-          <div className="text-white">
-            <span className="font-medium">{selectedApplications.length}</span>{" "}
+          <div className="text-text-primary font-medium">
+            <span className="font-bold text-primary">{selectedApplications.length}</span>{" "}
             applications selected
           </div>
 
@@ -374,7 +333,7 @@ const ApplicationsManagement = () => {
                 });
                 setShowStatusModal(true);
               }}
-              className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700"
+              className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 shadow-sm"
             >
               <ThumbsUp className="w-4 h-4" />
               <span>Accept Selected</span>
@@ -388,7 +347,7 @@ const ApplicationsManagement = () => {
                 });
                 setShowStatusModal(true);
               }}
-              className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700"
+              className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700 shadow-sm"
             >
               <ThumbsDown className="w-4 h-4" />
               <span>Reject Selected</span>
@@ -396,7 +355,7 @@ const ApplicationsManagement = () => {
 
             <button
               onClick={() => setSelectedApplications([])}
-              className="px-4 py-2 text-white transition-colors rounded-lg bg-white/10 hover:bg-white/20"
+              className="px-4 py-2 text-text-secondary transition-colors rounded-lg bg-white border border-border hover:bg-slate-50"
             >
               Clear Selection
             </button>
@@ -405,142 +364,143 @@ const ApplicationsManagement = () => {
       )}
 
       {/* Applications table */}
-      <div className="relative overflow-x-auto border border-white/10 rounded-xl">
-        <table className="w-full text-left">
-          <thead className="bg-white/5">
-            <tr>
-              <th className="p-4">
-                <input
-                  type="checkbox"
-                  className="text-indigo-500 rounded bg-white/10 border-white/20 focus:ring-indigo-500 focus:ring-offset-0 focus:ring-offset-transparent"
-                  checked={
-                    applications.length > 0 &&
-                    selectedApplications.length === applications.length
-                  }
-                  onChange={handleSelectAll}
-                />
-              </th>
-              <th className="p-4 text-sm font-medium text-gray-300">
-                Applicant
-              </th>
-              <th className="p-4 text-sm font-medium text-gray-300">Task</th>
-              <th className="p-4 text-sm font-medium text-gray-300">Status</th>
-              <th className="p-4 text-sm font-medium text-gray-300">
-                Submitted
-              </th>
-              <th className="p-4 text-sm font-medium text-gray-300">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="p-8 text-center text-gray-400">
-                  {loading
-                    ? "Loading applications..."
-                    : "No applications found"}
-                </td>
+      <div className="bg-white border rounded-xl border-border shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-border">
+                <th className="p-4 w-12">
+                  <input
+                    type="checkbox"
+                    className="text-primary rounded border-gray-300 focus:ring-primary"
+                    checked={
+                      applications.length > 0 &&
+                      selectedApplications.length === applications.length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </th>
+                <th className="p-4 text-sm font-semibold text-text-secondary uppercase tracking-wider">
+                  Applicant
+                </th>
+                <th className="p-4 text-sm font-semibold text-text-secondary uppercase tracking-wider">Task</th>
+                <th className="p-4 text-sm font-semibold text-text-secondary uppercase tracking-wider">Status</th>
+                <th className="p-4 text-sm font-semibold text-text-secondary uppercase tracking-wider">
+                  Submitted
+                </th>
+                <th className="p-4 text-sm font-semibold text-text-secondary uppercase tracking-wider">Actions</th>
               </tr>
-            ) : (
-              applications.map((app, index) => (
-                <motion.tr
-                  key={app._id || app.id || index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="transition-colors border-t border-white/5 hover:bg-white/5"
-                >
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      className="text-indigo-500 rounded bg-white/10 border-white/20 focus:ring-indigo-500 focus:ring-offset-0 focus:ring-offset-transparent"
-                      checked={selectedApplications.includes(app._id || app.id)}
-                      onChange={() =>
-                        handleApplicationSelect(app._id || app.id)
-                      }
-                    />
+            </thead>
+            <tbody className="divide-y divide-border">
+              {applications.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="p-8 text-center text-text-muted">
+                    {loading
+                      ? "Loading applications..."
+                      : "No applications found"}
                   </td>
-                  <td className="p-4 font-medium text-white">
-                    {app.userId?.name ||
-                      app.user?.name ||
-                      app.userName ||
-                      "Unknown User"}
-                  </td>
-                  <td className="p-4 text-gray-300 max-w-[200px] truncate">
-                    {app.taskId?.title ||
-                      app.task?.title ||
-                      app.taskTitle ||
-                      "Unknown Task"}
-                  </td>
-                  <td className="p-4">
-                    {getStatusBadge(app.status || "pending")}
-                  </td>
-                  <td className="p-4 text-gray-400">
-                    {app.submissions && app.submissions.length > 0
-                      ? `${app.submissions.length} file${
-                          app.submissions.length > 1 ? "s" : ""
+                </tr>
+              ) : (
+                applications.map((app, index) => (
+                  <motion.tr
+                    key={app._id || app.id || index}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="hover:bg-slate-50/80 transition-colors"
+                  >
+                    <td className="p-4">
+                      <input
+                        type="checkbox"
+                        className="text-primary rounded border-gray-300 focus:ring-primary"
+                        checked={selectedApplications.includes(app._id || app.id)}
+                        onChange={() =>
+                          handleApplicationSelect(app._id || app.id)
+                        }
+                      />
+                    </td>
+                    <td className="p-4 font-medium text-text-primary">
+                      {app.userId?.name ||
+                        app.user?.name ||
+                        app.userName ||
+                        "Unknown User"}
+                    </td>
+                    <td className="p-4 text-text-secondary max-w-[200px] truncate">
+                      {app.taskId?.title ||
+                        app.task?.title ||
+                        app.taskTitle ||
+                        "Unknown Task"}
+                    </td>
+                    <td className="p-4">
+                      {getStatusBadge(app.status || "pending")}
+                    </td>
+                    <td className="p-4 text-text-secondary text-sm">
+                      {app.submissions && app.submissions.length > 0
+                        ? `${app.submissions.length} file${app.submissions.length > 1 ? "s" : ""
                         } (${formatDate(
                           app.submissions[0]?.uploadedAt ||
-                            app.submittedAt ||
-                            app.createdAt
+                          app.submittedAt ||
+                          app.createdAt
                         )})`
-                      : app.status === "submitted"
-                      ? "Submitted (no files)"
-                      : "No submissions"}
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          viewApplicationDetails(app._id || app.id)
-                        }
-                        className="p-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-colors"
-                        title="View Details"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
+                        : app.status === "submitted"
+                          ? "Submitted (no files)"
+                          : "No submissions"}
+                    </td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            viewApplicationDetails(app._id || app.id)
+                          }
+                          className="p-2 text-text-secondary transition-colors rounded-lg hover:text-primary hover:bg-indigo-50"
+                          title="View Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
 
-                      <button
-                        onClick={() =>
-                          handleStatusUpdate(
-                            app._id || app.id,
-                            "accepted",
-                            "Your application has been accepted"
-                          )
-                        }
-                        className="p-1.5 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-400 transition-colors"
-                        title="Accept Application"
-                        disabled={app.status === "accepted"}
-                      >
-                        <ThumbsUp className="w-4 h-4" />
-                      </button>
+                        <button
+                          onClick={() =>
+                            handleStatusUpdate(
+                              app._id || app.id,
+                              "accepted",
+                              "Your application has been accepted"
+                            )
+                          }
+                          className="p-2 text-text-secondary transition-colors rounded-lg hover:text-green-600 hover:bg-green-50"
+                          title="Accept Application"
+                          disabled={app.status === "accepted"}
+                        >
+                          <ThumbsUp className="w-4 h-4" />
+                        </button>
 
-                      <button
-                        onClick={() =>
-                          handleStatusUpdate(
-                            app._id || app.id,
-                            "rejected",
-                            "Your application has been rejected"
-                          )
-                        }
-                        className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors"
-                        title="Reject Application"
-                        disabled={app.status === "rejected"}
-                      >
-                        <ThumbsDown className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </motion.tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                        <button
+                          onClick={() =>
+                            handleStatusUpdate(
+                              app._id || app.id,
+                              "rejected",
+                              "Your application has been rejected"
+                            )
+                          }
+                          className="p-2 text-text-secondary transition-colors rounded-lg hover:text-red-600 hover:bg-red-50"
+                          title="Reject Application"
+                          disabled={app.status === "rejected"}
+                        >
+                          <ThumbsDown className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination */}
       {applications.length > 0 && (
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-400">
+        <div className="flex items-center justify-between px-2">
+          <div className="text-sm text-text-secondary">
             Showing {Math.min(itemsPerPage, applications.length)} of{" "}
             {totalApplications} applications
           </div>
@@ -562,13 +522,13 @@ const ApplicationsManagement = () => {
                 <p>
                   You're about to change the status of{" "}
                   {selectedApplications.length} applications to{" "}
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-text-primary">
                     {bulkStatusUpdate.status}
                   </span>
                   .
                 </p>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-300">
+                  <label className="block mb-2 text-sm font-medium text-text-secondary">
                     Feedback (optional):
                   </label>
                   <textarea
@@ -579,7 +539,7 @@ const ApplicationsManagement = () => {
                         feedback: e.target.value,
                       })
                     }
-                    className="w-full px-3 py-2 text-white placeholder-gray-500 border rounded-lg bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 text-text-primary placeholder-text-muted border rounded-lg bg-white border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     placeholder="Add feedback for applicants..."
                     rows={3}
                   />
@@ -599,7 +559,7 @@ const ApplicationsManagement = () => {
         )}
       </AnimatePresence>
 
-      {/* Application details modal */}
+      {/* Application details modal - Refactored for Light Theme */}
       <AnimatePresence>
         {showDetailsModal && selectedApplication && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -607,11 +567,11 @@ const ApplicationsManagement = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-gray-900 border border-white/10 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+              className="bg-white border border-border rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-white/10">
+              <div className="p-6 border-b border-border bg-slate-50/50">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-xl font-bold text-text-primary">
                     Application Details
                   </h2>
                   <button
@@ -619,7 +579,7 @@ const ApplicationsManagement = () => {
                       setShowDetailsModal(false);
                       setSelectedApplication(null);
                     }}
-                    className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                    className="p-1.5 rounded-full text-text-secondary hover:text-text-primary hover:bg-slate-200 transition-colors"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -630,23 +590,23 @@ const ApplicationsManagement = () => {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-sm text-gray-400">Applicant</h3>
-                      <p className="text-lg font-medium text-white">
+                      <h3 className="text-sm text-text-muted uppercase tracking-wider font-semibold">Applicant</h3>
+                      <p className="text-lg font-medium text-text-primary">
                         {selectedApplication.user?.name ||
                           selectedApplication.userName ||
                           "Unknown User"}
                       </p>
                     </div>
                     <div>
-                      <h3 className="text-sm text-gray-400">Task</h3>
-                      <p className="text-lg font-medium text-white">
+                      <h3 className="text-sm text-text-muted uppercase tracking-wider font-semibold">Task</h3>
+                      <p className="text-lg font-medium text-text-primary">
                         {selectedApplication.task?.title ||
                           selectedApplication.taskTitle ||
                           "Unknown Task"}
                       </p>
                     </div>
                     <div>
-                      <h3 className="text-sm text-gray-400">Status</h3>
+                      <h3 className="text-sm text-text-muted uppercase tracking-wider font-semibold">Status</h3>
                       <p className="mt-1">
                         {getStatusBadge(
                           selectedApplication.status || "pending"
@@ -657,33 +617,27 @@ const ApplicationsManagement = () => {
 
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-sm text-gray-400">Submitted On</h3>
-                      <p className="text-lg font-medium text-white">
+                      <h3 className="text-sm text-text-muted uppercase tracking-wider font-semibold">Submitted On</h3>
+                      <p className="text-lg font-medium text-text-primary">
                         {selectedApplication.submissions &&
-                        selectedApplication.submissions.length > 0
+                          selectedApplication.submissions.length > 0
                           ? formatDate(
-                              selectedApplication.submissions[0]?.uploadedAt ||
-                                selectedApplication.submittedAt ||
-                                selectedApplication.createdAt
-                            )
+                            selectedApplication.submissions[0]?.uploadedAt ||
+                            selectedApplication.submittedAt ||
+                            selectedApplication.createdAt
+                          )
                           : selectedApplication.status === "submitted"
-                          ? formatDate(
+                            ? formatDate(
                               selectedApplication.submittedAt ||
-                                selectedApplication.createdAt
+                              selectedApplication.createdAt
                             )
-                          : formatDate(selectedApplication.createdAt)}
+                            : formatDate(selectedApplication.createdAt)}
                       </p>
                     </div>
                     <div>
-                      <h3 className="text-sm text-gray-400">Last Updated</h3>
-                      <p className="text-lg font-medium text-white">
-                        {formatDate(selectedApplication.updatedAt)}
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="text-sm text-gray-400">Attachments</h3>
+                      <h3 className="text-sm text-text-muted uppercase tracking-wider font-semibold">Attachments</h3>
                       {selectedApplication.submissions &&
-                      selectedApplication.submissions.length > 0 ? (
+                        selectedApplication.submissions.length > 0 ? (
                         <div className="mt-2 space-y-2">
                           {selectedApplication.submissions.map((file, idx) => (
                             <div key={idx} className="flex items-center gap-2">
@@ -691,11 +645,11 @@ const ApplicationsManagement = () => {
                                 onClick={() =>
                                   downloadSubmissionFile(
                                     selectedApplication._id ||
-                                      selectedApplication.id,
+                                    selectedApplication.id,
                                     file
                                   )
                                 }
-                                className="flex items-center gap-2 p-2 text-indigo-400 transition-colors rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20"
+                                className="flex items-center gap-2 px-3 py-2 text-indigo-700 transition-colors rounded-lg bg-indigo-50 hover:bg-indigo-100 border border-indigo-200"
                               >
                                 <Download className="w-4 h-4" />
                                 <span>
@@ -706,20 +660,15 @@ const ApplicationsManagement = () => {
                               </button>
                               {/* Basic file info UI */}
                               {file.size && (
-                                <span className="ml-2 text-xs text-gray-400">
+                                <span className="ml-2 text-xs text-text-muted">
                                   {(file.size / 1024).toFixed(1)} KB
-                                </span>
-                              )}
-                              {file.uploadedAt && (
-                                <span className="ml-2 text-xs text-gray-500">
-                                  {formatDate(file.uploadedAt)}
                                 </span>
                               )}
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-400">
+                        <p className="text-text-muted italic">
                           {selectedApplication.status === "submitted"
                             ? "No files found"
                             : "No files uploaded"}
@@ -730,10 +679,10 @@ const ApplicationsManagement = () => {
                 </div>
 
                 <div>
-                  <h3 className="mb-2 text-sm text-gray-400">
+                  <h3 className="mb-2 text-sm text-text-muted uppercase tracking-wider font-semibold">
                     Application Message
                   </h3>
-                  <div className="p-4 text-gray-300 border rounded-lg bg-white/5 border-white/10">
+                  <div className="p-4 text-text-secondary border rounded-lg bg-slate-50 border-border">
                     {selectedApplication.message ||
                       selectedApplication.coverLetter ||
                       "No message provided"}
@@ -742,16 +691,16 @@ const ApplicationsManagement = () => {
 
                 {selectedApplication.feedback && (
                   <div>
-                    <h3 className="mb-2 text-sm text-gray-400">Feedback</h3>
-                    <div className="p-4 text-gray-300 border rounded-lg bg-white/5 border-white/10">
+                    <h3 className="mb-2 text-sm text-text-muted uppercase tracking-wider font-semibold">Feedback</h3>
+                    <div className="p-4 text-text-secondary border rounded-lg bg-indigo-50 border-indigo-100">
                       {typeof selectedApplication.feedback === "object"
                         ? selectedApplication.feedback.comment ||
-                          "No feedback provided"
+                        "No feedback provided"
                         : selectedApplication.feedback}
                       {selectedApplication.feedback &&
                         typeof selectedApplication.feedback === "object" &&
                         selectedApplication.feedback.providedAt && (
-                          <div className="mt-2 text-xs text-gray-400">
+                          <div className="mt-2 text-xs text-text-muted">
                             Provided:{" "}
                             {formatDate(
                               selectedApplication.feedback.providedAt
@@ -762,7 +711,7 @@ const ApplicationsManagement = () => {
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
+                <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-border mt-6">
                   <button
                     onClick={() => {
                       handleStatusUpdate(
@@ -773,7 +722,7 @@ const ApplicationsManagement = () => {
                       setShowDetailsModal(false);
                       setSelectedApplication(null);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700"
+                    className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 shadow-sm"
                     disabled={selectedApplication.status === "accepted"}
                   >
                     <ThumbsUp className="w-4 h-4" />
@@ -790,7 +739,7 @@ const ApplicationsManagement = () => {
                       setShowDetailsModal(false);
                       setSelectedApplication(null);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700"
+                    className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700 shadow-sm"
                     disabled={selectedApplication.status === "rejected"}
                   >
                     <ThumbsDown className="w-4 h-4" />
@@ -799,19 +748,11 @@ const ApplicationsManagement = () => {
 
                   <button
                     onClick={() => {
-                      handleStatusUpdate(
-                        selectedApplication._id || selectedApplication.id,
-                        "needs_revision",
-                        "Your application needs some revisions"
-                      );
                       setShowDetailsModal(false);
-                      setSelectedApplication(null);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 text-white transition-colors rounded-lg bg-amber-600 hover:bg-amber-700"
-                    disabled={selectedApplication.status === "needs_revision"}
+                    className="px-4 py-2 text-text-secondary bg-white border border-border rounded-lg hover:bg-slate-50 transition-colors ml-auto"
                   >
-                    <ExternalLink className="w-4 h-4" />
-                    <span>Request Revision</span>
+                    Close
                   </button>
                 </div>
               </div>

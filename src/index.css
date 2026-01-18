@@ -26,12 +26,12 @@
     /* Slate 400 */
     --color-secondary-foreground: #ffffff;
 
-    --color-text-primary: #0f172a;
-    /* Slate 900 - Sharp, legible dark */
-    --color-text-secondary: #475569;
-    /* Slate 600 - Soft contrast */
-    --color-text-muted: #94a3b8;
-    /* Slate 400 - Subdued */
+    --color-text-primary: #000000;
+    /* Pure Black - Maximum contrast */
+    --color-text-secondary: #334155;
+    /* Slate 700 - Much darker secondary text */
+    --color-text-muted: #64748b;
+    /* Slate 500 - Visible but distinct */
 
     --color-border: #e2e8f0;
     /* Slate 200 - Delicate borders */
