@@ -67,7 +67,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-screen p-4 bg-indigo-950">
+    <div className="flex items-center justify-center w-full h-screen p-4 bg-background">
       <AnimatedCubes count={10} />
 
       {/* Success Popup */}
@@ -78,37 +78,20 @@ const Login = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -30, scale: 0.95 }}
             transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
-            className="flex items-center px-6 py-4 border-2 shadow-2xl rounded-2xl bg-gradient-to-r from-green-500/90 to-emerald-600/90 border-green-400/60 backdrop-blur-lg"
+            className="flex items-center px-6 py-4 border shadow-2xl rounded-2xl bg-surface border-success/20 backdrop-blur-lg"
             style={{ minWidth: 320 }}
           >
-            <svg
-              className="w-8 h-8 mr-4 text-white drop-shadow-lg"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="#22c55e"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4"
-                stroke="#fff"
-              />
-            </svg>
+            <div className="flex items-center justify-center w-8 h-8 mr-4 text-white bg-green-500 rounded-full shadow-lg shadow-green-500/30">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
             <div>
-              <div className="text-lg font-bold text-white drop-shadow">
+              <div className="text-lg font-bold text-text-primary">
                 Log in Successful
               </div>
-              <div className="text-sm text-green-100">
-                Welcome back! Redirecting to dashboard...
+              <div className="text-sm text-text-secondary">
+                Welcome back! Redirecting...
               </div>
             </div>
           </motion.div>
@@ -119,43 +102,62 @@ const Login = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-[1200px] h-[700px] rounded-2xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.9)] flex overflow-hidden bg-gradient-to-br from-indigo-900 to-indigo-950"
+        className="w-full max-w-[1200px] h-[700px] rounded-3xl shadow-2xl flex overflow-hidden bg-surface border border-border"
       >
-        {/* Left side - Login Form */}
+        {/* Left side - Login Image (SWAPPED) */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative flex flex-col justify-center w-1/2 p-12 bg-indigo-900/50 backdrop-blur-sm text-slate-50"
+          className="relative w-1/2 overflow-hidden bg-surfaceHighlight hidden md:block"
+        >
+          <div className="absolute inset-0 bg-primary/10 mix-blend-overlay z-10"></div>
+          <img
+            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+            alt="Login illustration"
+            className="object-cover w-full h-full"
+          />
+          <div className="absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-black/80 to-transparent z-20 text-white">
+            <h3 className="text-2xl font-bold mb-2">Welcome Back to Codexa.</h3>
+            <p className="opacity-90">Your gateway to unlimited tasks and opportunities.</p>
+          </div>
+        </motion.div>
+
+        {/* Right side - Login Form (SWAPPED) */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="relative flex flex-col justify-center w-full md:w-1/2 p-12 bg-surface text-text-primary"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-6"
+            className="mb-8"
           >
-            <h2 className="mb-1 text-xl font-bold text-slate-50">
-              Welcome back!
+            <h2 className="mb-2 text-3xl font-bold tracking-tight text-text-primary">
+              Sign in
             </h2>
-            <p className="text-sm text-slate-300">
-              Enter to get unlimited access to data & information.
+            <p className="text-text-secondary">
+              Enter your credential to access your account.
             </p>
           </motion.div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               className="space-y-2"
             >
-              <label className="block text-sm text-slate-300">Email</label>
+              <label className="block text-sm font-medium text-text-secondary">Email address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 transition border rounded-lg outline-none bg-indigo-800/50 border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/50 text-slate-50 placeholder-slate-400"
-                placeholder="Enter your mail address"
+                className="w-full px-4 py-3 transition-all border rounded-xl outline-none bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-text-primary placeholder:text-text-muted"
+                placeholder="name@example.com"
                 required
               />
             </motion.div>
@@ -166,22 +168,33 @@ const Login = () => {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="space-y-2"
             >
-              <label className="block text-sm text-slate-300">Password</label>
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-text-secondary">Password</label>
+              </div>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 transition border rounded-lg outline-none bg-indigo-800/50 border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/50 text-slate-50 placeholder-slate-400"
-                  placeholder="Enter password"
+                  className="w-full px-4 py-3 transition-all border rounded-xl outline-none bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-text-primary placeholder:text-text-muted"
+                  placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute -translate-y-1/2 right-3 top-1/2 text-slate-300"
+                  className="absolute -translate-y-1/2 right-3 top-1/2 text-text-muted hover:text-text-primary"
                 >
-                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                  {showPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  )}
                 </button>
               </div>
             </motion.div>
@@ -192,38 +205,37 @@ const Login = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
               className="flex items-center justify-between"
             >
-              <label className="flex items-center space-x-2 cursor-pointer">
+              <label className="flex items-center space-x-2 cursor-pointer group">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 text-indigo-500 rounded bg-indigo-800/50 border-slate-600 focus:ring-indigo-500"
+                  className="w-4 h-4 transition rounded border-border text-primary focus:ring-primary"
                 />
-                <span className="text-sm text-slate-300">Remember me</span>
+                <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors">Remember me</span>
               </label>
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 href="#"
-                className="text-sm text-cyan-500 hover:underline"
+                className="text-sm font-medium text-primary hover:text-primary-hover hover:underline"
               >
-                Forgot your password?
+                Forgot password?
               </motion.a>
             </motion.div>
 
             <motion.button
-              whileHover={{ scale: isLoading ? 1 : 1.02 }}
+              whileHover={{ scale: isLoading ? 1 : 1.01 }}
               whileTap={{ scale: isLoading ? 1 : 0.98 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
               type="submit"
               disabled={isLoading}
-              className={`w-full py-3 transition duration-200 rounded-lg shadow-lg text-slate-50 shadow-indigo-600/20 ${
-                isLoading
-                  ? "bg-indigo-700 cursor-not-allowed"
-                  : "bg-indigo-600 hover:bg-indigo-500"
-              }`}
+              className={`w-full py-3.5 font-medium transition duration-200 rounded-xl shadow-lg shadow-primary/25 text-white ${isLoading
+                  ? "bg-primary/70 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary-hover hover:shadow-primary/40"
+                }`}
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -247,10 +259,10 @@ const Login = () => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Logging in...
+                  Signing in...
                 </div>
               ) : (
-                "Log in"
+                "Sign In"
               )}
             </motion.button>
 
@@ -259,71 +271,28 @@ const Login = () => {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-3 mt-3 text-sm text-red-200 rounded-md bg-red-900/50"
+                className="p-4 text-sm font-medium text-red-600 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/20"
               >
                 {errorMessage}
               </motion.div>
             )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="text-center"
-            >
-              <div className="relative py-4">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-600"></div>
-                </div>
-                <div className="relative flex justify-center">
-                  <span className="px-4 text-sm bg-indigo-900 text-slate-400">
-                    Or Login with
-                  </span>
-                </div>
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="button"
-                className="flex items-center justify-center w-full py-3 space-x-2 transition duration-200 border rounded-lg border-slate-600 text-slate-300 hover:bg-indigo-800/70"
-                disabled
-              >
-                <span className="text-xl">G</span>
-                <span>Sign up with google</span>
-              </motion.button>
-            </motion.div>
-
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.9 }}
-              className="mt-4 mb-5 text-sm text-center text-slate-400"
+              className="mt-6 text-center text-text-secondary"
             >
               Don't have an account?{" "}
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 href="/Signup"
-                className="text-yellow-500 hover:underline"
+                className="font-semibold text-primary hover:underline"
               >
-                Register here
+                Sign up
               </motion.a>
             </motion.p>
           </form>
-        </motion.div>
-
-        {/* Right side - Login Image */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative w-1/2 overflow-hidden"
-        >
-          <img
-            src="https://e7.pngegg.com/pngimages/227/811/png-clipart-freelancer-sole-proprietorship-workplace-employment-tax-copywriter-purple-violet.png"
-            alt="Login illustration"
-            className="object-cover w-full h-full"
-          />
         </motion.div>
       </motion.div>
     </div>

@@ -14,9 +14,9 @@ export const LoadingSpinner = ({ size = "medium", text = "Loading..." }) => {
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <div
-        className={`${getSizeClasses()} border-b-2 border-indigo-500 rounded-full animate-spin`}
+        className={`${getSizeClasses()} border-b-2 border-primary rounded-full animate-spin`}
       ></div>
-      {text && <p className="mt-2 text-gray-300 text-sm">{text}</p>}
+      {text && <p className="mt-2 text-sm text-text-muted">{text}</p>}
     </div>
   );
 };
@@ -28,12 +28,12 @@ export const TableLoading = ({ columns = 5, rows = 5 }) => {
   return (
     <div className="animate-pulse">
       {[...Array(rows)].map((_, rowIndex) => (
-        <div key={rowIndex} className="border-b border-gray-700">
-          <div className="px-6 py-4 flex space-x-4">
+        <div key={rowIndex} className="border-b border-border">
+          <div className="flex px-6 py-4 space-x-4">
             {[...Array(columns)].map((_, colIndex) => (
               <div
                 key={colIndex}
-                className="h-4 bg-gray-700 rounded flex-1"
+                className="flex-1 h-4 rounded bg-surfaceHighlight"
                 style={{ maxWidth: `${Math.random() * 200 + 100}px` }}
               ></div>
             ))}
@@ -49,17 +49,17 @@ export const TableLoading = ({ columns = 5, rows = 5 }) => {
  */
 export const CardLoading = ({ count = 4 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {[...Array(count)].map((_, index) => (
         <div
           key={index}
-          className="bg-gray-800 p-6 rounded-lg border border-gray-700 animate-pulse"
+          className="p-6 border rounded-lg bg-surface border-border animate-pulse"
         >
           <div className="flex items-center justify-between mb-4">
-            <div className="h-4 bg-gray-700 rounded w-24"></div>
-            <div className="h-6 w-6 bg-gray-700 rounded"></div>
+            <div className="w-24 h-4 rounded bg-surfaceHighlight"></div>
+            <div className="w-6 h-6 rounded bg-surfaceHighlight"></div>
           </div>
-          <div className="h-8 bg-gray-700 rounded w-16"></div>
+          <div className="w-16 h-8 rounded bg-surfaceHighlight"></div>
         </div>
       ))}
     </div>
@@ -73,8 +73,8 @@ export const PageLoading = ({ text = "Loading page..." }) => {
   return (
     <div className="flex items-center justify-center min-h-64">
       <div className="text-center">
-        <div className="w-12 h-12 mx-auto border-b-2 border-indigo-500 rounded-full animate-spin"></div>
-        <p className="mt-4 text-gray-300">{text}</p>
+        <div className="w-12 h-12 mx-auto border-b-2 rounded-full border-primary animate-spin"></div>
+        <p className="mt-4 text-text-muted">{text}</p>
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-screen p-4 bg-indigo-950">
+    <div className="flex items-center justify-center w-full h-screen p-4 bg-background">
       <AnimatedCubes count={10} />
 
       {/* Success Popup */}
@@ -83,37 +83,20 @@ const Signup = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -30, scale: 0.95 }}
             transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
-            className="flex items-center px-6 py-4 border-2 shadow-2xl rounded-2xl bg-gradient-to-r from-green-500/90 to-emerald-600/90 border-green-400/60 backdrop-blur-lg"
+            className="flex items-center px-6 py-4 border shadow-2xl rounded-2xl bg-surface border-success/20 backdrop-blur-lg"
             style={{ minWidth: 320 }}
           >
-            <svg
-              className="w-8 h-8 mr-4 text-white drop-shadow-lg"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="#22c55e"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4"
-                stroke="#fff"
-              />
-            </svg>
+            <div className="flex items-center justify-center w-8 h-8 mr-4 text-white bg-green-500 rounded-full shadow-lg shadow-green-500/30">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
             <div>
-              <div className="text-lg font-bold text-white drop-shadow">
-                Log in Successful
+              <div className="text-lg font-bold text-text-primary">
+                Success!
               </div>
-              <div className="text-sm text-green-100">
-                Welcome! Redirecting to login...
+              <div className="text-sm text-text-secondary">
+                {successMessage || "Account created. Redirecting..."}
               </div>
             </div>
           </motion.div>
@@ -124,26 +107,45 @@ const Signup = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-[1200px] h-[700px] rounded-2xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.9)] flex overflow-hidden bg-gradient-to-br from-indigo-900 to-indigo-950"
+        className="w-full max-w-[1200px] h-[800px] rounded-3xl shadow-2xl flex overflow-hidden bg-surface border border-border"
       >
-        {/* Left side - Signup Form */}
+        {/* Left side - Signup Image (SWAPPED) */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative flex flex-col justify-center w-1/2 p-12 bg-indigo-900/50 backdrop-blur-sm text-slate-50"
+          className="relative w-1/2 overflow-hidden bg-surfaceHighlight hidden md:block"
+        >
+          <div className="absolute inset-0 bg-primary/10 mix-blend-overlay z-10"></div>
+          <img
+            src="https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2574&auto=format&fit=crop"
+            alt="Signup illustration"
+            className="object-cover w-full h-full"
+          />
+          <div className="absolute bottom-0 left-0 right-0 p-12 bg-gradient-to-t from-black/80 to-transparent z-20 text-white">
+            <h3 className="text-2xl font-bold mb-2">Join the Community.</h3>
+            <p className="opacity-90">Start your journey with Codexa and unlock new possibilities.</p>
+          </div>
+        </motion.div>
+
+        {/* Right side - Signup Form (SWAPPED) */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="relative flex flex-col justify-center w-full md:w-1/2 p-12 bg-surface text-text-primary overflow-y-auto"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-6"
+            className="mb-8"
           >
-            <h2 className="mt-5 mb-1 text-xl font-bold text-slate-50">
+            <h2 className="mb-2 text-3xl font-bold tracking-tight text-text-primary">
               Create Account
             </h2>
-            <p className="text-sm text-slate-300">
-              Join us to access unlimited data & information.
+            <p className="text-text-secondary">
+              Fill in your details to get started.
             </p>
           </motion.div>
 
@@ -154,14 +156,14 @@ const Signup = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="space-y-2"
             >
-              <label className="block text-sm text-slate-300">Full Name</label>
+              <label className="block text-sm font-medium text-text-secondary">Full Name</label>
               <input
                 type="text"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 transition border rounded-lg outline-none bg-indigo-800/50 border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/50 text-slate-50 placeholder-slate-400"
-                placeholder="Enter your full name"
+                className="w-full px-4 py-3 transition-all border rounded-xl outline-none bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-text-primary placeholder:text-text-muted"
+                placeholder="John Doe"
                 required
               />
             </motion.div>
@@ -172,14 +174,14 @@ const Signup = () => {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="space-y-2"
             >
-              <label className="block text-sm text-slate-300">Email</label>
+              <label className="block text-sm font-medium text-text-secondary">Email</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 transition border rounded-lg outline-none bg-indigo-800/50 border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/50 text-slate-50 placeholder-slate-400"
-                placeholder="Enter your email address"
+                className="w-full px-4 py-3 transition-all border rounded-xl outline-none bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-text-primary placeholder:text-text-muted"
+                placeholder="name@example.com"
                 required
               />
             </motion.div>
@@ -190,14 +192,14 @@ const Signup = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
               className="space-y-2"
             >
-              <label className="block text-sm text-slate-300">Password</label>
+              <label className="block text-sm font-medium text-text-secondary">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 transition border rounded-lg outline-none bg-indigo-800/50 border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/50 text-slate-50 placeholder-slate-400"
+                  className="w-full px-4 py-3 transition-all border rounded-xl outline-none bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-text-primary placeholder:text-text-muted"
                   placeholder="Create a password"
                   required
                 />
@@ -206,9 +208,18 @@ const Signup = () => {
                   whileTap={{ scale: 0.9 }}
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute -translate-y-1/2 right-3 top-1/2 text-slate-300"
+                  className="absolute -translate-y-1/2 right-3 top-1/2 text-text-muted hover:text-text-primary"
                 >
-                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                  {showPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  )}
                 </motion.button>
               </div>
             </motion.div>
@@ -219,7 +230,7 @@ const Signup = () => {
               transition={{ duration: 0.5, delay: 0.7 }}
               className="space-y-2"
             >
-              <label className="block text-sm text-slate-300">
+              <label className="block text-sm font-medium text-text-secondary">
                 Confirm Password
               </label>
               <div className="relative">
@@ -228,7 +239,7 @@ const Signup = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 transition border rounded-lg outline-none bg-indigo-800/50 border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/50 text-slate-50 placeholder-slate-400"
+                  className="w-full px-4 py-3 transition-all border rounded-xl outline-none bg-background border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-text-primary placeholder:text-text-muted"
                   placeholder="Confirm your password"
                   required
                 />
@@ -237,9 +248,18 @@ const Signup = () => {
                   whileTap={{ scale: 0.9 }}
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute -translate-y-1/2 right-3 top-1/2 text-slate-300"
+                  className="absolute -translate-y-1/2 right-3 top-1/2 text-text-muted hover:text-text-primary"
                 >
-                  {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
+                  {showConfirmPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  )}
                 </motion.button>
               </div>
             </motion.div>
@@ -249,20 +269,9 @@ const Signup = () => {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-3 text-sm text-red-200 border rounded-lg bg-red-500/20 border-red-500/30"
+                className="p-4 text-sm font-medium text-red-600 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/20"
               >
                 {errorMessage}
-              </motion.div>
-            )}
-
-            {/* Success Message Display */}
-            {successMessage && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3 text-sm text-green-200 border rounded-lg bg-green-500/20 border-green-500/30"
-              >
-                {successMessage}
               </motion.div>
             )}
 
@@ -274,66 +283,26 @@ const Signup = () => {
               transition={{ duration: 0.5, delay: 0.8 }}
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 mt-6 transition duration-200 bg-indigo-600 rounded-lg shadow-lg text-slate-50 hover:bg-indigo-500 shadow-indigo-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`w-full py-3.5 font-medium transition duration-200 rounded-xl shadow-lg shadow-primary/25 text-white ${isLoading
+                  ? "bg-primary/70 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary-hover hover:shadow-primary/40"
+                }`}
             >
               {isLoading ? "Creating Account..." : "Sign Up"}
             </motion.button>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-              className="text-center"
-            >
-              <div className="relative py-4">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-600"></div>
-                </div>
-                <div className="relative flex justify-center">
-                  <span className="px-4 text-sm bg-indigo-900 text-slate-400">
-                    Or Sign up with
-                  </span>
-                </div>
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="button"
-                className="flex items-center justify-center w-full py-3 space-x-2 transition duration-200 border rounded-lg border-slate-600 text-slate-300 hover:bg-indigo-800/70"
-                disabled
-              >
-                <span className="text-xl">G</span>
-                <span>Sign up with google</span>
-              </motion.button>
-            </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1 }}
-              className="mt-4 mb-5 text-sm text-center text-slate-400"
+              className="mt-6 mb-4 text-center text-text-secondary"
             >
               Already have an account?{" "}
-              <Link to="/login" className="text-yellow-500 hover:underline">
-                Login here
+              <Link to="/login" className="font-semibold text-primary hover:underline">
+                Log in
               </Link>
             </motion.p>
           </form>
-        </motion.div>
-
-        {/* Right side - Signup Image */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative w-1/2 overflow-hidden"
-        >
-          <img
-            src="https://e7.pngegg.com/pngimages/227/811/png-clipart-freelancer-sole-proprietorship-workplace-employment-tax-copywriter-purple-violet.png"
-            alt="Signup illustration"
-            className="object-cover w-full h-full"
-          />
         </motion.div>
       </motion.div>
     </div>

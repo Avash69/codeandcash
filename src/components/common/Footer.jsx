@@ -53,7 +53,7 @@ const Footer = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="border-t bg-navy border-border"
+        className="border-t bg-background border-border"
       >
         <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
@@ -64,7 +64,7 @@ const Footer = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: sectionIndex * 0.1 }}
               >
-                <h3 className="mb-4 text-sm font-semibold tracking-wider uppercase text-indigo">
+                <h3 className="mb-4 text-sm font-semibold tracking-wider uppercase text-primary">
                   {section.title}
                 </h3>
                 <ul className="space-y-3">
@@ -79,7 +79,7 @@ const Footer = () => {
                     >
                       <Link
                         to={link.to}
-                        className="transition-colors text-text-secondary hover:text-indigo"
+                        className="transition-colors text-text-secondary hover:text-primary"
                       >
                         {link.label}
                       </Link>
@@ -98,8 +98,8 @@ const Footer = () => {
           >
             <div className="flex flex-col items-center justify-between md:flex-row">
               <div className="flex items-center space-x-4">
-                <Link to="/" className="text-lg font-semibold text-indigo">
-                  codexa
+                <Link to="/" className="text-lg font-semibold text-primary">
+                  Codexa
                 </Link>
                 <span className="text-border">|</span>
                 <span className="text-text-secondary">
@@ -126,11 +126,11 @@ const Footer = () => {
                 ].map((item) => (
                   <m.a
                     key={item.name}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.1, color: "var(--color-primary)" }}
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo hover:text-indigo-hover"
+                    className="text-text-muted hover:text-primary transition-colors"
                   >
                     <span className="sr-only">{item.name}</span>
                     <svg

@@ -3,6 +3,8 @@ import Footer from "./components/common/Footer.jsx";
 import Header from "./components/common/Header.jsx";
 import TaskProvider from "./context/TaskProvider.jsx";
 import AppRoutes from "./routes/index.jsx";
+import "./index.css";
+
 
 // Component to handle conditional header/footer rendering
 const AppContent = () => {

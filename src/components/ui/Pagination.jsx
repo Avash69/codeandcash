@@ -25,11 +25,11 @@ export const Pagination = ({
   };
 
   return (
-    <div className="flex items-center justify-between bg-gray-700 px-6 py-3 border-t border-gray-600">
+    <div className="flex items-center justify-between px-6 py-3 border-t bg-surface border-border">
       <div className="flex items-center">
-        <p className="text-sm text-gray-300">
-          Page <span className="font-medium">{currentPage}</span> of{" "}
-          <span className="font-medium">{totalPages}</span>
+        <p className="text-sm text-text-secondary">
+          Page <span className="font-medium text-text-primary">{currentPage}</span> of{" "}
+          <span className="font-medium text-text-primary">{totalPages}</span>
         </p>
       </div>
 
@@ -38,7 +38,7 @@ export const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 text-sm font-medium transition-colors border rounded-lg bg-background border-border text-text-primary hover:bg-surfaceHighlight disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
         </button>
@@ -50,11 +50,10 @@ export const Pagination = ({
               <button
                 key={page}
                 onClick={() => onPageChange(page)}
-                className={`px-3 py-1 text-sm rounded transition-colors ${
-                  page === currentPage
-                    ? "bg-indigo-600 text-white"
-                    : "bg-gray-600 text-gray-300 hover:bg-gray-500"
-                }`}
+                className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${page === currentPage
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-background border border-border text-text-secondary hover:bg-surfaceHighlight hover:text-text-primary"
+                  }`}
               >
                 {page}
               </button>
@@ -66,7 +65,7 @@ export const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 text-sm font-medium transition-colors border rounded-lg bg-background border-border text-text-primary hover:bg-surfaceHighlight disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
         </button>
@@ -82,11 +81,11 @@ export const SimplePagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center space-x-4 py-4">
+    <div className="flex items-center justify-center py-4 space-x-4">
       <button
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
-        className="flex items-center px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex items-center px-4 py-2 text-sm font-medium transition-colors border rounded-lg bg-surface border-border text-text-secondary hover:bg-surfaceHighlight hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           className="w-4 h-4 mr-2"
@@ -104,14 +103,14 @@ export const SimplePagination = ({ currentPage, totalPages, onPageChange }) => {
         Previous
       </button>
 
-      <span className="px-4 py-2 text-sm font-medium text-gray-300">
+      <span className="px-4 py-2 text-sm font-medium text-text-secondary">
         {currentPage} of {totalPages}
       </span>
 
       <button
         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
-        className="flex items-center px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex items-center px-4 py-2 text-sm font-medium transition-colors border rounded-lg bg-surface border-border text-text-secondary hover:bg-surfaceHighlight hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Next
         <svg

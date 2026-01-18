@@ -97,8 +97,8 @@ const Header = () => {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="sticky top-0 z-50 border-b shadow-md bg-indigo-950 border-slate-600 bg-opacity-95 backdrop-blur-sm"
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="sticky top-0 z-50 border-b shadow-sm bg-background/80 border-border backdrop-blur-md supports-[backdrop-filter]:bg-background/60"
     >
       {/* Logout Toast */}
       <AnimatePresence>
@@ -107,55 +107,36 @@ const Header = () => {
             initial={{ opacity: 0, y: -30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -30, scale: 0.95 }}
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 30,
-              duration: 0.4,
-            }}
-            className="fixed z-[9999] top-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-indigo-900 font-bold text-lg shadow-2xl shadow-yellow-300/40 border-2 border-yellow-200 flex items-center gap-2"
-            style={{
-              minWidth: 220,
-              justifyContent: "center",
-              letterSpacing: 0.5,
-            }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            className="fixed z-[9999] top-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-2xl bg-surface border border-border text-text-primary font-medium shadow-2xl flex items-center gap-2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 mr-1 text-yellow-700"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V5"
-              />
-            </svg>
-            You have logged out
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <span>You have logged out</span>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo - Left Side */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center group">
               <motion.span
                 whileHover={{ scale: 1.05 }}
-                className="text-xl font-semibold text-indigo-400"
+                className="text-2xl font-bold tracking-tight text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-400 group-hover:to-indigo-300 transition-all"
               >
-                codexa
+                Codexa
               </motion.span>
             </Link>
           </div>
 
           {/* Navigation Links - Middle */}
           <div className="items-center justify-center flex-1 hidden mx-8 md:flex">
-            <div className="flex space-x-8">
+            <nav className="flex space-x-1 p-1 rounded-full bg-surface/50 border border-border/50 backdrop-blur-sm">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.label}
@@ -165,13 +146,13 @@ const Header = () => {
                 >
                   <Link
                     to={link.to}
-                    className="transition-colors text-slate-50 hover:text-indigo-400"
+                    className="relative px-4 py-2 text-sm font-medium transition-colors rounded-full text-text-secondary hover:text-text-primary hover:bg-surfaceHighlight"
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
-            </div>
+            </nav>
           </div>
 
           {/* Auth Buttons - Right Side */}
@@ -181,11 +162,11 @@ const Header = () => {
             transition={{ delay: 0.5 }}
             className="items-center hidden space-x-4 md:flex"
           >
-            {/* Profile Icon - Always visible when logged in */}
+            {/* Profile Icon */}
             {isLoggedIn && (
               <Link
                 to="/profile"
-                className="transition-colors text-slate-300 hover:text-slate-50"
+                className="p-2 transition-colors duration-200 rounded-full text-text-secondary hover:text-primary hover:bg-primary/10"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,22 +174,22 @@ const Header = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  strokeWidth={1.5}
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
               </Link>
             )}
 
-            {/* Conditionally show Login/Signup or Logout */}
+            {/* Buttons */}
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 font-medium text-yellow-500 transition-colors bg-indigo-800 border border-indigo-600 rounded-md shadow-md hover:bg-indigo-700 hover:text-yellow-400 shadow-indigo-600/20"
+                className="px-4 py-2 text-sm font-medium transition-all border rounded-xl text-text-muted border-border hover:border-red-500/50 hover:text-red-400 hover:bg-red-500/10"
               >
                 Logout
               </button>
@@ -216,13 +197,13 @@ const Header = () => {
               <>
                 <Link
                   to="/login"
-                  className="transition-colors text-slate-300 hover:text-slate-50"
+                  className="px-4 py-2 text-sm font-medium transition-colors text-text-secondary hover:text-text-primary"
                 >
-                  Login
+                  Log in
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-4 py-2 transition-colors bg-indigo-600 rounded-md shadow-md text-slate-50 hover:bg-indigo-500 shadow-indigo-600/20"
+                  className="px-5 py-2 text-sm font-medium transition-all shadow-lg rounded-xl bg-primary text-white shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5"
                 >
                   Sign Up
                 </Link>
@@ -234,7 +215,7 @@ const Header = () => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 rounded-md md:hidden text-slate-300 hover:text-slate-50 hover:bg-indigo-800"
+            className="p-2 rounded-lg md:hidden text-text-secondary hover:text-text-primary hover:bg-surface"
           >
             <svg
               className="w-6 h-6"
@@ -260,9 +241,9 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden bg-indigo-900 border-t md:hidden border-slate-600"
+            className="overflow-hidden border-t bg-background/95 backdrop-blur-xl border-border md:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-4 pt-4 pb-6 space-y-2">
               {navLinks.map((link) => (
                 <motion.div
                   key={link.label}
@@ -272,7 +253,7 @@ const Header = () => {
                 >
                   <Link
                     to={link.to}
-                    className="block px-3 py-2 rounded-md text-slate-300 hover:text-slate-50 hover:bg-indigo-800"
+                    className="block px-4 py-3 text-base font-medium transition-colors rounded-xl text-text-secondary hover:text-text-primary hover:bg-surface"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -280,65 +261,34 @@ const Header = () => {
                 </motion.div>
               ))}
 
-              {/* Profile Link in Mobile Menu - only show when logged in */}
-              {isLoggedIn && (
-                <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -20, opacity: 0 }}
-                >
-                  <Link
-                    to="/profile"
-                    className="flex items-center px-3 py-2 rounded-md text-slate-300 hover:text-slate-50 hover:bg-indigo-800"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-5 h-5 mr-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                    Profile
-                  </Link>
-                </motion.div>
-              )}
-
-              <div className="flex flex-col px-3 mt-4 space-y-2">
+              <div className="pt-4 mt-4 border-t border-border">
                 {isLoggedIn ? (
                   <button
                     onClick={() => {
                       handleLogout();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="block py-2 text-center text-yellow-500 bg-indigo-800 border border-indigo-600 rounded-md shadow-md hover:bg-indigo-700 hover:text-yellow-400 shadow-indigo-600/20"
+                    className="flex items-center justify-center w-full px-4 py-3 font-medium text-red-400 transition-colors border rounded-xl border-border hover:bg-red-500/10"
                   >
                     Logout
                   </button>
                 ) : (
-                  <>
+                  <div className="flex flex-col gap-3">
                     <Link
                       to="/login"
-                      className="block py-2 text-center text-slate-300 hover:text-slate-50"
+                      className="block w-full py-3 font-medium text-center transition-colors rounded-xl text-text-secondary hover:bg-surface"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Login
+                      Log in
                     </Link>
                     <Link
                       to="/signup"
-                      className="block py-2 text-center bg-indigo-600 rounded-md shadow-md text-slate-50 hover:bg-indigo-500 shadow-indigo-600/20"
+                      className="block w-full py-3 font-medium text-center text-white shadow-lg rounded-xl bg-primary shadow-primary/20"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sign Up
                     </Link>
-                  </>
+                  </div>
                 )}
               </div>
             </div>

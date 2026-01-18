@@ -371,91 +371,315 @@ const Dashboard = () => {
         )}
       </AnimatePresence>
 
-      {/* Hero Section - Conditional content based on login status */}
-      <div className="relative z-10 py-20 bg-gradient-to-b from-indigo-950 to-indigo-900">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            {isLoggedIn ? (
-              <>
+      {/* Advanced Hero Section */}
+      <div className="relative z-10 overflow-hidden pt-20 pb-24 bg-gradient-to-b from-indigo-950 via-indigo-900 to-indigo-850">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute w-96 h-96 bg-indigo-500/10 rounded-full -top-40 -left-40 blur-3xl"></div>
+          <div className="absolute w-96 h-96 bg-purple-500/10 rounded-full -bottom-40 -right-40 blur-3xl"></div>
+        </div>
+
+        <div className="relative z-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          {isLoggedIn ? (
+            <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
+              {/* Left side - Content */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="inline-block mb-4"
+                >
+                  <span className="px-4 py-2 text-sm font-semibold text-indigo-300 rounded-full bg-indigo-900/50 border border-indigo-700">
+                    ✨ Welcome Back!
+                  </span>
+                </motion.div>
+
                 <motion.h1
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="mb-4 text-4xl font-bold text-slate-50"
+                  className="mb-6 text-5xl md:text-6xl font-bold leading-tight text-slate-50"
                 >
-                  Welcome Back to Codexa!
+                  Your Next <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">Opportunity</span> Awaits
                 </motion.h1>
+
                 <motion.p
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
-                  className="mb-8 text-xl text-slate-300"
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="mb-8 text-xl text-slate-300 leading-relaxed"
                 >
-                  CodeXa connects talented developers with businesses needing coding help .
-                  Solve tasks , get paid , build your portfolio .
+                  Discover curated coding tasks from leading companies, showcase your skills, and earn competitive rates. Level up your career today.
                 </motion.p>
+
+                {/* Stats */}
                 <motion.div
-                  className="flex flex-col items-center justify-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
+                  transition={{ delay: 0.4 }}
+                  className="grid grid-cols-3 gap-6 mb-8"
                 >
-                  <Link
-                    to="/exploretask"
-                    className="inline-block px-8 py-3 text-lg font-medium bg-indigo-600 rounded-md shadow-lg text-slate-50 hover:bg-indigo-500 shadow-indigo-600/20"
-                  >
-                    Explore Tasks
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-cyan-400">1,250+</div>
+                    <div className="text-sm text-slate-400">Active Tasks</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-cyan-400">$850K+</div>
+                    <div className="text-sm text-slate-400">Paid Out</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-cyan-400">2,500+</div>
+                    <div className="text-sm text-slate-400">Developers</div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Link to="/exploretask">
+                    <motion.button
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.3)" }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-3 text-lg font-semibold bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-lg shadow-lg text-white hover:from-indigo-600 hover:to-indigo-700 transition-all"
+                    >
+                      Explore Tasks →
+                    </motion.button>
                   </Link>
-                  <Link
-                    to="/profile"
-                    className="inline-block px-8 py-3 text-lg font-medium text-indigo-300 border border-indigo-500 rounded-md shadow-lg hover:bg-indigo-800/30 hover:text-indigo-200"
-                  >
-                    Update Profile
+                  <Link to="/profile">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-3 text-lg font-semibold text-indigo-300 border-2 border-indigo-500 rounded-lg hover:bg-indigo-900/30 transition-all"
+                    >
+                      Update Profile
+                    </motion.button>
                   </Link>
                 </motion.div>
-              </>
-            ) : (
-              <>
+              </motion.div>
+
+              {/* Right side - Visual */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative"
+              >
+                <div className="relative">
+                  {/* Floating card 1 */}
+                  <motion.div
+                    animate={{ y: [0, -20, 0] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                    className="absolute top-0 -left-12 w-64 p-6 bg-gradient-to-br from-indigo-800 to-indigo-900 rounded-xl border border-indigo-700 shadow-2xl"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
+                        💻
+                      </div>
+                      <span className="px-3 py-1 text-xs font-bold text-green-400 bg-green-900/30 rounded-full">In Progress</span>
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">React Dashboard UI</h4>
+                    <p className="text-sm text-slate-400 mb-3">Build a responsive dashboard component library with Tailwind CSS.</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-cyan-400 font-bold">$150</span>
+                      <span className="text-xs text-slate-400">Est. 5 hrs</span>
+                    </div>
+                  </motion.div>
+
+                  {/* Floating card 2 */}
+                  <motion.div
+                    animate={{ y: [0, 20, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
+                    className="absolute bottom-0 -right-12 w-64 p-6 bg-gradient-to-br from-purple-800 to-indigo-900 rounded-xl border border-purple-700 shadow-2xl"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                        ⚡
+                      </div>
+                      <span className="px-3 py-1 text-xs font-bold text-yellow-400 bg-yellow-900/30 rounded-full">Available</span>
+                    </div>
+                    <h4 className="font-semibold text-white mb-2">API Integration</h4>
+                    <p className="text-sm text-slate-400 mb-3">Integrate Stripe payment gateway with Node.js backend.</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-cyan-400 font-bold">$200</span>
+                      <span className="text-xs text-slate-400">Est. 8 hrs</span>
+                    </div>
+                  </motion.div>
+
+                  {/* Center visual element */}
+                  <div className="w-80 h-80 mx-auto">
+                    <div className="relative w-full h-full">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className="absolute inset-0 rounded-full border-2 border-transparent border-t-indigo-400 border-r-purple-400"
+                      ></motion.div>
+                      <motion.div
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        className="absolute inset-4 rounded-full border-2 border-transparent border-t-cyan-400 border-l-indigo-400"
+                      ></motion.div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <motion.div
+                            animate={{ scale: [1, 1.1, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="text-6xl mb-2"
+                          >
+                            🚀
+                          </motion.div>
+                          <p className="text-slate-300 font-semibold">Start Earning Now</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
+              {/* Left side - Content */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="inline-block mb-4"
+                >
+                  <span className="px-4 py-2 text-sm font-semibold text-indigo-300 rounded-full bg-indigo-900/50 border border-indigo-700">
+                    🎯 For Developers & Teams
+                  </span>
+                </motion.div>
+
                 <motion.h1
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
-                  className="mb-4 text-4xl font-bold text-slate-50"
+                  className="mb-6 text-5xl md:text-6xl font-bold leading-tight text-slate-50"
                 >
-                  Connect, Code, and Earn
+                  Build Together, <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">Earn Smarter</span>
                 </motion.h1>
+
                 <motion.p
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
-                  className="mb-8 text-xl text-slate-300"
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="mb-8 text-xl text-slate-300 leading-relaxed"
                 >
-                  CodeXa connects talented developers with businesses needing coding help .
-                  Save time, get paid, build your
-                  portfolio.
+                  Connect with talented developers and businesses. Solve real-world coding tasks, build your portfolio, and earn competitive income all in one platform.
                 </motion.p>
+
+                {/* Key features */}
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="space-y-4 mb-8"
+                >
+                  {[
+                    { icon: "✓", text: "Flexible tasks matching your skills" },
+                    { icon: "💰", text: "Competitive payment rates & quick payouts" },
+                    { icon: "🏆", text: "Build real-world portfolio projects" },
+                  ].map((feature, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + i * 0.1 }}
+                      className="flex items-center gap-3"
+                    >
+                      <span className="text-2xl text-cyan-400">{feature.icon}</span>
+                      <span className="text-slate-300">{feature.text}</span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 }}
                 >
-                  <Link
-                    to="/signup"
-                    className="inline-block px-8 py-3 text-lg font-medium bg-indigo-600 rounded-md shadow-lg text-slate-50 hover:bg-indigo-500 shadow-indigo-600/20"
-                  >
-                    Join Now Free
+                  <Link to="/signup">
+                    <motion.button
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(99, 102, 241, 0.3)" }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full sm:w-auto px-8 py-4 text-lg font-semibold bg-gradient-to-r from-cyan-500 to-indigo-600 rounded-lg shadow-xl text-white hover:from-cyan-600 hover:to-indigo-700 transition-all"
+                    >
+                      Join Now - It's Free →
+                    </motion.button>
                   </Link>
                 </motion.div>
-              </>
-            )}
-          </motion.div>
+              </motion.div>
+
+              {/* Right side - Visual */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative"
+              >
+                <div className="relative h-96">
+                  {/* Code snippet cards */}
+                  <motion.div
+                    animate={{ y: [0, -15, 0] }}
+                    transition={{ duration: 5, repeat: Infinity }}
+                    className="absolute top-0 left-0 w-72 p-5 bg-slate-900/80 rounded-xl border border-slate-700 shadow-2xl backdrop-blur-sm"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <code className="text-sm text-cyan-400">
+                      <div>const task = await solve()</div>
+                      <div className="text-yellow-400">return <span className="text-green-400">"$$$"</span></div>
+                    </code>
+                  </motion.div>
+
+                  {/* Stats cards */}
+                  <motion.div
+                    animate={{ y: [0, 15, 0] }}
+                    transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+                    className="absolute bottom-0 right-0 w-72 p-5 bg-gradient-to-br from-indigo-800/80 to-purple-800/80 rounded-xl border border-indigo-600 shadow-2xl backdrop-blur-sm"
+                  >
+                    <div className="text-sm font-semibold text-slate-300 mb-3">Platform Stats</div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-2xl font-bold text-cyan-400">5K+</div>
+                        <div className="text-xs text-slate-400">Tasks Completed</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-cyan-400">4.8★</div>
+                        <div className="text-xs text-slate-400">Avg Rating</div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Center hero graphic */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                      className="w-48 h-48"
+                    >
+                      <div className="w-full h-full rounded-full border-2 border-transparent border-t-indigo-400 border-r-purple-400 border-b-cyan-400 shadow-2xl shadow-indigo-500/50"></div>
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -590,7 +814,7 @@ const Dashboard = () => {
               animate={howItWorksInView ? "animate" : "initial"}
               className="mb-12 text-3xl font-bold text-center text-slate-50"
             >
-              How codexa Works
+              How Codexa Works
             </motion.h2>
             <motion.div
               variants={staggerContainer}

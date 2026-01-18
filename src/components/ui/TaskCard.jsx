@@ -34,12 +34,12 @@ export const TaskCard = ({
       whileHover={{ scale: 1.02, y: -2 }}
       className="group"
     >
-      <div className="p-6 transition-all duration-200 border shadow-lg rounded-xl bg-gradient-to-br from-navy-light/50 to-navy/50 backdrop-blur border-border hover:border-indigo/30 hover:shadow-xl">
+      <div className="p-6 transition-all duration-200 border shadow-sm rounded-xl bg-surface border-border hover:border-primary/50 hover:shadow-md">
         {/* Header with title and status */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <Link to={`/task-details/${task._id || task.id}`}>
-              <h3 className="text-lg font-semibold transition-colors text-text-primary group-hover:text-indigo line-clamp-1">
+              <h3 className="text-lg font-bold transition-colors text-text-primary group-hover:text-primary line-clamp-1">
                 {task.title}
               </h3>
             </Link>
@@ -50,7 +50,7 @@ export const TaskCard = ({
           <div className="flex flex-col items-end ml-4 space-y-2">
             <TaskStatusBadge status={task.status} />
             <div className="text-right">
-              <p className="text-2xl font-bold text-transparent bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text">
+              <p className="text-xl font-bold text-primary">
                 ${task.price}
               </p>
             </div>
@@ -59,12 +59,12 @@ export const TaskCard = ({
 
         {/* Developer and submission info */}
         {task.developerName && (
-          <div className="p-3 mb-3 rounded-lg bg-blue-50">
-            <p className="text-sm font-medium text-blue-900">
+          <div className="p-3 mb-3 rounded-lg bg-surfaceHighlight border border-border/50">
+            <p className="text-sm font-medium text-text-primary">
               👨‍💻 Assigned to: {task.developerName}
             </p>
             {task.approvedAt && (
-              <p className="text-xs text-blue-700">
+              <p className="text-xs text-text-muted">
                 Approved: {formatDate(task.approvedAt)}
               </p>
             )}
@@ -74,22 +74,15 @@ export const TaskCard = ({
         {/* Submission status for submitted tasks */}
         {task.status === "submitted" && task.submittedAt && (
           <div
-            className={`mb-3 p-3 rounded-lg ${
-              isLate ? "bg-red-50" : "bg-green-50"
-            }`}
-          >
-            <p
-              className={`text-sm font-medium ${
-                isLate ? "text-red-900" : "text-green-900"
+            className={`mb-3 p-3 rounded-lg border ${isLate
+                ? "bg-red-50 border-red-100 text-red-700"
+                : "bg-green-50 border-green-100 text-green-700"
               }`}
-            >
+          >
+            <p className="text-sm font-medium">
               {isLate ? "⚠️ Late Submission" : "✅ On Time"}
             </p>
-            <p
-              className={`text-xs ${
-                isLate ? "text-red-700" : "text-green-700"
-              }`}
-            >
+            <p className="text-xs opacity-80">
               Submitted: {formatDate(task.submittedAt)}
             </p>
           </div>
@@ -97,19 +90,22 @@ export const TaskCard = ({
 
         {/* Deadline warning */}
         {task.deadline && task.status !== "completed" && (
-          <div className={`mb-3 p-2 rounded-lg ${deadlineStatus.bgColor}`}>
-            <p className={`text-xs font-medium ${deadlineStatus.color}`}>
+          <div className="mb-3">
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${deadlineStatus.color === 'text-red-500' ? 'bg-red-50 text-red-700' :
+                deadlineStatus.color === 'text-yellow-500' ? 'bg-yellow-50 text-yellow-700' :
+                  'bg-surfaceHighlight text-text-secondary'
+              }`}>
               📅 {deadlineStatus.text}
-            </p>
+            </span>
           </div>
         )}
 
         {/* Task details */}
-        <div className="flex items-center justify-between mb-4 text-sm text-text-secondary">
+        <div className="flex items-center justify-between mb-4 text-sm text-text-muted">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center">
+            <div className="flex items-center" title="Posted Date">
               <svg
-                className="w-4 h-4 mr-1"
+                className="w-4 h-4 mr-1.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -123,9 +119,9 @@ export const TaskCard = ({
               </svg>
               <span>{formatDate(task.postedDate)}</span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center" title="Applicants">
               <svg
-                className="w-4 h-4 mr-1"
+                className="w-4 h-4 mr-1.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -143,65 +139,24 @@ export const TaskCard = ({
         </div>
 
         {/* Action buttons */}
-        <div className="space-y-2">
-          {/* Status Actions */}
-          {task.status === "open" && (
-            <div className="flex gap-2">
-              <button
-                onClick={() => onApprove(task)}
-                className="flex-1 px-3 py-2 text-sm text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700"
-              >
-                Approve
-              </button>
-              <button
-                onClick={() =>
-                  onStatusChange &&
-                  onStatusChange(task._id || task.id, "submitted")
-                }
-                className="flex-1 px-3 py-2 text-sm text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
-              >
-                Mark Submitted
-              </button>
-            </div>
-          )}
+        <div className="flex gap-2 pt-2 border-t border-border/50">
+          <Link
+            to={`/task-details/${task._id || task.id}`}
+            className="flex-1"
+          >
+            <button className="w-full px-4 py-2 text-sm font-medium transition-colors border rounded-lg text-primary border-primary/20 hover:bg-primary/5">
+              View Details
+            </button>
+          </Link>
 
-          {task.status === "submitted" && (
-            <div className="flex gap-2">
-              <button
-                onClick={() =>
-                  onStatusChange && onStatusChange(task._id || task.id, "open")
-                }
-                className="flex-1 px-3 py-2 text-sm transition-colors border rounded-lg text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
-              >
-                Reopen
-              </button>
-              <button
-                onClick={() => onApprove(task)}
-                className="flex-1 px-3 py-2 text-sm text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700"
-              >
-                Complete
-              </button>
-            </div>
-          )}
-
-          {/* Common Actions */}
-          <div className="flex gap-2">
-            <Link
-              to={`/task-details/${task._id || task.id}`}
-              className="flex-1"
-            >
-              <button className="w-full px-3 py-2 text-sm transition-colors border rounded-lg text-indigo border-indigo hover:bg-indigo hover:text-white">
-                View Details
-              </button>
-            </Link>
-
+          {onDelete && (
             <button
-              onClick={() => onDelete && onDelete(task._id || task.id)}
-              className="px-3 py-2 text-sm transition-colors border rounded-lg text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+              onClick={() => onDelete(task._id || task.id)}
+              className="px-3 py-2 text-text-muted transition-colors rounded-lg hover:text-red-600 hover:bg-red-50"
               title="Delete Task"
             >
               <svg
-                className="w-4 h-4"
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -214,7 +169,7 @@ export const TaskCard = ({
                 />
               </svg>
             </button>
-          </div>
+          )}
         </div>
       </div>
     </motion.div>

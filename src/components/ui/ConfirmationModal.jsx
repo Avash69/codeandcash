@@ -28,16 +28,16 @@ export const ConfirmationModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-gray-800 p-6 rounded-lg border border-gray-700 max-w-md w-full mx-4"
+        className="w-full max-w-md p-6 border shadow-xl bg-surface rounded-xl border-border mx-4"
       >
         <div className="flex items-center mb-4">
           {type === "danger" && (
-            <div className="flex-shrink-0 w-10 h-10 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+            <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 mx-auto bg-red-100 rounded-full">
               <svg
                 className="w-6 h-6 text-red-600"
                 fill="none"
@@ -54,7 +54,7 @@ export const ConfirmationModal = ({
             </div>
           )}
           {type === "warning" && (
-            <div className="flex-shrink-0 w-10 h-10 mx-auto bg-yellow-100 rounded-full flex items-center justify-center">
+            <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 mx-auto bg-yellow-100 rounded-full">
               <svg
                 className="w-6 h-6 text-yellow-600"
                 fill="none"
@@ -71,7 +71,7 @@ export const ConfirmationModal = ({
             </div>
           )}
           {type === "info" && (
-            <div className="flex-shrink-0 w-10 h-10 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+            <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 mx-auto bg-blue-100 rounded-full">
               <svg
                 className="w-6 h-6 text-blue-600"
                 fill="none"
@@ -88,19 +88,19 @@ export const ConfirmationModal = ({
             </div>
           )}
           <div className="ml-4">
-            <h3 className="text-lg font-medium text-white">{title}</h3>
+            <h3 className="text-lg font-medium text-text-primary">{title}</h3>
           </div>
         </div>
 
         <div className="mt-4">
-          <p className="text-gray-300">{message}</p>
+          <p className="text-text-secondary">{message}</p>
         </div>
 
-        <div className="mt-6 flex justify-end space-x-3">
+        <div className="flex justify-end mt-6 space-x-3">
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors disabled:opacity-50"
+            className="px-4 py-2 transition-colors border rounded-lg bg-surface border-border text-text-secondary hover:bg-surfaceHighlight hover:text-text-primary disabled:opacity-50"
           >
             {cancelText}
           </button>
@@ -111,7 +111,7 @@ export const ConfirmationModal = ({
           >
             {isLoading ? (
               <div className="flex items-center">
-                <div className="w-4 h-4 border-b-2 border-white rounded-full animate-spin mr-2"></div>
+                <div className="w-4 h-4 mr-2 border-b-2 border-white rounded-full animate-spin"></div>
                 Loading...
               </div>
             ) : (
